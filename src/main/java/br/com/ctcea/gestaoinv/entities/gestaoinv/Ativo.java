@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import br.com.ctcea.gestaoinv.enums.Area;
@@ -38,6 +39,11 @@ public abstract class Ativo {
     private String codigoSerie;
     private String observacoes;
     private String linkDocumento;
+    
+    private String qrCodeUrl;
+    
+    @Lob
+    private byte[] qrCodeImage;
     
     @OneToMany(mappedBy = "ativo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Imagem> imagens = new ArrayList<>();
@@ -147,6 +153,22 @@ public abstract class Ativo {
 
 	public void setLinkDocumento(String linkDocumento) {
 		this.linkDocumento = linkDocumento;
+	}
+
+	public String getQrCodeUrl() {
+		return qrCodeUrl;
+	}
+
+	public void setQrCodeUrl(String qrCodeUrl) {
+		this.qrCodeUrl = qrCodeUrl;
+	}
+
+	public byte[] getQrCodeImage() {
+		return qrCodeImage;
+	}
+
+	public void setQrCodeImage(byte[] qrCodeImage) {
+		this.qrCodeImage = qrCodeImage;
 	}
 
 	public List<Imagem> getImagens() {

@@ -10,7 +10,10 @@ import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -56,6 +59,10 @@ public class Usuario implements Serializable, UserDetails {
 	private LocalDateTime anonymizationDate;
 	@Column(name = "LAST_SECURITY_UPDATE_DATE")
 	private LocalDateTime lastSecurityUpdateDate;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", insertable = false, updatable = false)
+	private UsuarioBase usuarioBase;
 	
 	@Transient
 	private List<String> associacoes = new ArrayList<>();
@@ -189,6 +196,10 @@ public class Usuario implements Serializable, UserDetails {
 
 	public void setLastSecurityUpdateDate(LocalDateTime lastSecurityUpdateDate) {
 		this.lastSecurityUpdateDate = lastSecurityUpdateDate;
+	}
+	
+	public String getNomeCompleto() {
+		return this.usuarioBase != null ? usuarioBase.getFullName() : null;
 	}
 
 	public List<String> getAssociacoes() {

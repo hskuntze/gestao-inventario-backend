@@ -9,6 +9,7 @@ public class UsuarioDTO {
 
 	private Long id;
 	private String email;
+	private String nome;
 	private String login;
 	private String username;
 	private String userUuid;
@@ -20,6 +21,7 @@ public class UsuarioDTO {
 	public UsuarioDTO(Usuario user) {
 		this.id = user.getUserTenantId();
 		this.email = user.getEmail();
+		this.nome = user.getNomeCompleto();
 		this.login = user.getLogin();
 		this.username = user.getUsername();
 		this.userUuid = user.getUserUuid();
@@ -66,6 +68,14 @@ public class UsuarioDTO {
 
 	public void setUserUuid(String userUuid) {
 		this.userUuid = userUuid;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public List<String> getGroups() {

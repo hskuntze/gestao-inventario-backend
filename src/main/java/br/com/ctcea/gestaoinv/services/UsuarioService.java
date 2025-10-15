@@ -36,6 +36,12 @@ public class UsuarioService implements UserDetailsService {
 		return new UsuarioDTO(u); 
 	}
 	
+	@Transactional(readOnly = true)
+	public List<UsuarioDTO> getAll() {
+		List<Usuario> usuarios = usuarioRepository.findAll();
+		return usuarios.stream().map(u -> new UsuarioDTO(u)).collect(Collectors.toList());
+	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Usuario usuario = usuarioRepository.findByLogin(username).orElseThrow(() -> new RecursoNaoEncontradoException("Não foi possível localizar o usuário " + username));

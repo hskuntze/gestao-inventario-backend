@@ -1,0 +1,13 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="qr-code" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fd358203-a995-4e78-afe0-fa7c0e23c630">
+	<parameter name="QR_CODE_PARAM" class="byte[]"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="QR_CODE_FIELD" class="byte[]"/>
+	<detail>
+		<band height="410" splitType="Stretch">
+			<element kind="image" uuid="abcf1054-5d84-4257-b1b1-70d0c80a76d4" x="-20" y="0" width="595" height="410" hImageAlign="Center" vImageAlign="Middle">
+				<expression><![CDATA[new java.io.ByteArrayInputStream($P{QR_CODE_PARAM})]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>
