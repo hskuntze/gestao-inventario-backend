@@ -33,12 +33,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests(requests -> requests
+        http
+        .csrf(csrf -> csrf.disable())
+        .authorizeRequests(requests -> requests
                 .antMatchers(PUBLIC).permitAll() 
                 .anyRequest().authenticated()
-            );
-
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+            )
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        .headers(headers -> headers.frameOptions().sameOrigin());
     }
     
     /**
@@ -52,6 +54,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration corsConfig = new CorsConfiguration();
 		corsConfig.setAllowedOrigins(Arrays.asList(
+				"http://localhost",
 				"http://localhost:3000", 
 				"http://172.20.71.103:3000", 
 				"http://localhost:3001", 

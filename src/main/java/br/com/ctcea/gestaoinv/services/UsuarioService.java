@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +26,13 @@ public class UsuarioService implements UserDetailsService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	@Transactional(readOnly = true)
+	public Usuario getAuthenticatedUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Usuario usuario = usuarioRepository.findByLogin(auth.getName()).orElseThrow(() -> new RecursoNaoEncontradoException("Erro ao tentar resgatar usuário logado"));
+		return usuario;
+	}
+ 	
 	@Transactional(readOnly = true)
 	public UsuarioDTO getById(Long id) {
 		Usuario u = usuarioRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Não foi possível localizar um usuário com ID " + id));

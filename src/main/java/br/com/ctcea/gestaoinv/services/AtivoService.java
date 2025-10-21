@@ -1,13 +1,20 @@
 package br.com.ctcea.gestaoinv.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.ctcea.gestaoinv.dto.AtivoDTO;
 import br.com.ctcea.gestaoinv.dto.QuantidadeAtivoDTO;
+import br.com.ctcea.gestaoinv.entities.gestaoinv.Ativo;
+import br.com.ctcea.gestaoinv.entities.gestaoinv.Tangivel;
+import br.com.ctcea.gestaoinv.entities.gestaoinv.TangivelLocacao;
 import br.com.ctcea.gestaoinv.repositories.gestaoinv.IntangivelRepository;
 import br.com.ctcea.gestaoinv.repositories.gestaoinv.TangivelLocacaoRepository;
 import br.com.ctcea.gestaoinv.repositories.gestaoinv.TangivelRepository;
+import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
 
 @Service
 public class AtivoService {
@@ -28,5 +35,33 @@ public class AtivoService {
 		Integer qtdTL = tangivelLocacaoRepository.getCount();
 		
 		return new QuantidadeAtivoDTO(qtdT, qtdI, qtdTL);
+	}
+	
+	@Transactional(readOnly = true)
+	public AtivoDTO getAtivoById(Long id) {
+		Optional<? extends Ativo> obj = tangivelRepository.findById(id);
+		String tipoAtivo = "t";
+		
+		if(!obj.isPresent()) {
+			obj = intangivelRepository.findById(id);
+			tipoAtivo = "i";
+		}
+		
+		if(!obj.isPresent()) {
+			obj = tangivelLocacaoRepository.findById(id);
+			tipoAtivo = "tl";
+		}
+		
+		Ativo ativo = obj.orElseThrow(() -> new RecursoNaoEncontradoException("Não foi possível localizar um ativo com ID " + id));
+		AtivoDTO dto = new AtivoDTO(ativo);
+		dto.setTipoAtivo(tipoAtivo);
+		
+		if (ativo instanceof Tangivel) {
+	        dto.setEstadoConservacao(((Tangivel) ativo).getEstadoConservacao());
+	    } else if (ativo instanceof TangivelLocacao) {
+	        dto.setEstadoConservacao(((TangivelLocacao) ativo).getEstadoConservacao());
+	    }
+		
+		return dto;
 	}
 }
