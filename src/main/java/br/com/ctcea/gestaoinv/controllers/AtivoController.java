@@ -1,5 +1,7 @@
 package br.com.ctcea.gestaoinv.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,11 @@ public class AtivoController {
 	@GetMapping(value = "/qtd/total")
 	public ResponseEntity<QuantidadeAtivoDTO> getQtdAtivos() {
 		return ResponseEntity.ok().body(ativoService.getQtdAtivos());
+	}
+	
+	@GetMapping(value = "/all")
+	public ResponseEntity<List<AtivoDTO>> getAll() {
+		return ResponseEntity.ok().body(ativoService.getAll());
 	}
 	
 	@GetMapping(value = "/{id}")

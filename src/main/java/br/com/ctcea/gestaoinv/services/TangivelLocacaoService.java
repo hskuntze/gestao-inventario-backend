@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.zxing.WriterException;
 
 import br.com.ctcea.gestaoinv.dto.TangivelLocacaoDTO;
+import br.com.ctcea.gestaoinv.entities.gestaoinv.Ativo;
 import br.com.ctcea.gestaoinv.entities.gestaoinv.TangivelLocacao;
 import br.com.ctcea.gestaoinv.repositories.gestaoinv.TangivelLocacaoRepository;
 import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
@@ -29,6 +30,9 @@ public class TangivelLocacaoService {
 
 	@Autowired
 	private TangivelLocacaoRepository tangivelLocacaoRepository;
+	
+	@Autowired
+	private QRCodeGenerator qrCodeGenerator;
 	
 	@Autowired
 	private HistoricoService historicoService;
@@ -50,7 +54,7 @@ public class TangivelLocacaoService {
 		dtoToEntity(newRegister, dto);
 		newRegister = tangivelLocacaoRepository.save(newRegister);
 		
-		String qrCodeUrl = BASE_URL + "/locacao/" + newRegister.getId();
+		String qrCodeUrl = BASE_URL + "/formulario/" + newRegister.getId();
 		newRegister.setQrCodeUrl(qrCodeUrl);
 		
 		try {
@@ -66,7 +70,11 @@ public class TangivelLocacaoService {
 		
 		newRegister = tangivelLocacaoRepository.save(newRegister);
 		
-		historicoService.recordOperation("INSERT", newRegister);
+		historicoService.recordOperation("REGISTRO", newRegister);
+		
+		if(!newRegister.getUsuarioResponsavel().isEmpty() || !newRegister.getUsuarioResponsavel().equals("N/A")) {
+			historicoService.recordOperation("ATRIBUIÇÃO", newRegister);
+		}
 		
 		LOGGER.info("[LOG] - Novo ativo tangível de locação {} registrado.", newRegister.getId());
 		return newRegister;
@@ -79,7 +87,7 @@ public class TangivelLocacaoService {
 		dtoToEntity(toUpdate, dto);
 		toUpdate = tangivelLocacaoRepository.save(toUpdate);
 		
-		historicoService.recordOperation("UPDATE", toUpdate);
+		historicoService.recordOperation("ATUALIZAÇÃO", toUpdate);
 		
 		LOGGER.info("[LOG] - Ativo tangível de locação {} atualizado.", id);
 		return toUpdate;
@@ -88,8 +96,20 @@ public class TangivelLocacaoService {
 	@Transactional
 	public TangivelLocacao update(TangivelLocacao obj) {
 		TangivelLocacao ativo = tangivelLocacaoRepository.save(obj);
-		historicoService.recordOperation("UPDATE", ativo);
+		historicoService.recordOperation("ATUALIZAÇÃO", ativo);
 		return ativo;
+	}
+	
+	public byte[] generateQrCode(Long id) {
+		Ativo object = getTangivelLocacaoObject(id);
+		
+		byte[] qrCode = null;
+		qrCodeGenerator.clearParams();
+		
+		qrCodeGenerator.addParam("QR_CODE_PARAM", object.getQrCodeImage());
+		
+		qrCode = qrCodeGenerator.qrCodeFromJasper();
+		return qrCode;
 	}
 	
 	public void delete(Long id) {

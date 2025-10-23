@@ -3,8 +3,7 @@ package br.com.ctcea.gestaoinv.enums;
 public enum Area {
 	GAP("GAP"),
 	GPS("GPS"),
-	GTI("GTI"),
-	SLI("SLI");
+	GTI("GTI");
 	
 	private final String area;
 	

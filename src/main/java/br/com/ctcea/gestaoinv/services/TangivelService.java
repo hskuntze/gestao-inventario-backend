@@ -54,7 +54,7 @@ public class TangivelService {
 		dtoToEntity(newRegister, dto);
 		newRegister = tangivelRepository.save(newRegister);
 		
-		String qrCodeUrl = BASE_URL + "/tangivel/" + newRegister.getId();
+		String qrCodeUrl = BASE_URL + "/formulario/" + newRegister.getId();
 		newRegister.setQrCodeUrl(qrCodeUrl);
 		
 		try {
@@ -70,7 +70,13 @@ public class TangivelService {
 		
 		newRegister = tangivelRepository.save(newRegister);
 		
-		historicoService.recordOperation("INSERT", newRegister);
+		historicoService.recordOperation("REGISTRO", newRegister);
+		
+		if(!newRegister.getUsuarioResponsavel().isEmpty() || 
+			!newRegister.getUsuarioResponsavel().equals("N/A") || 
+			!newRegister.getUsuarioResponsavel().equals("Sem Usuário")) {
+			historicoService.recordOperation("ATRIBUIÇÃO", newRegister);
+		}
 		
 		LOGGER.info("[LOG] - Novo ativo tangível {} registrado.", newRegister.getId());
 		return newRegister;
@@ -83,7 +89,7 @@ public class TangivelService {
 		dtoToEntity(toUpdate, dto);
 		toUpdate = tangivelRepository.save(toUpdate);
 		
-		historicoService.recordOperation("UPDATE", toUpdate);
+		historicoService.recordOperation("ATUALIZAÇÃO", toUpdate);
 		
 		LOGGER.info("[LOG] - Ativo tangível {} atualizado.", id);
 		return toUpdate;
@@ -92,7 +98,7 @@ public class TangivelService {
 	@Transactional
 	public Tangivel update(Tangivel obj) {
 		Tangivel ativo = tangivelRepository.save(obj);
-		historicoService.recordOperation("UPDATE", ativo);
+		historicoService.recordOperation("ATUALIZAÇÃO", ativo);
 		return ativo;
 	}
 	

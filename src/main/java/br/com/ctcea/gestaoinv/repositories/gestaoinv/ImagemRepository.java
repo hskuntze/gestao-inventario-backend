@@ -8,5 +8,4 @@ import br.com.ctcea.gestaoinv.entities.gestaoinv.Imagem;
 @Repository
 public interface ImagemRepository extends JpaRepository<Imagem, Long>{
 
-	
 }

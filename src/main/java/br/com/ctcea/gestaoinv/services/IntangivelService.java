@@ -54,7 +54,7 @@ public class IntangivelService {
 		dtoToEntity(newRegister, dto);
 		newRegister = intangivelRepository.save(newRegister);
 		
-		String qrCodeUrl = BASE_URL + "/intangivel/" + newRegister.getId();
+		String qrCodeUrl = BASE_URL + "/formulario/" + newRegister.getId();
 		newRegister.setQrCodeUrl(qrCodeUrl);
 		
 		try {
@@ -70,7 +70,11 @@ public class IntangivelService {
 		
 		newRegister = intangivelRepository.save(newRegister);
 		
-		historicoService.recordOperation("INSERT", newRegister);
+		historicoService.recordOperation("REGISTRO", newRegister);
+		
+		if(!newRegister.getUsuarioResponsavel().isEmpty() || !newRegister.getUsuarioResponsavel().equals("N/A")) {
+			historicoService.recordOperation("ATRIBUIÇÃO", newRegister);
+		}
 		
 		LOGGER.info("[LOG] - Novo ativo intangível {} registrado.", newRegister.getId());
 		return newRegister;
@@ -83,7 +87,7 @@ public class IntangivelService {
 		dtoToEntity(toUpdate, dto);
 		toUpdate = intangivelRepository.save(toUpdate);
 		
-		historicoService.recordOperation("UPDATE", toUpdate);
+		historicoService.recordOperation("ATUALIZAÇÃO", toUpdate);
 		
 		LOGGER.info("[LOG] - Ativo intangível {} atualizado.", id);
 		return toUpdate;
@@ -92,7 +96,7 @@ public class IntangivelService {
 	@Transactional
 	public Intangivel update(Intangivel obj) {
 		Intangivel ativo = intangivelRepository.save(obj);
-		historicoService.recordOperation("UPDATE", ativo);
+		historicoService.recordOperation("ATUALIZAÇÃO", ativo);
 		return ativo;
 	}
 	
