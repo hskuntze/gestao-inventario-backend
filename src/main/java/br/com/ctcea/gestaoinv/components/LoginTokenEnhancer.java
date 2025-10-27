@@ -10,8 +10,8 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
 
-import br.com.ctcea.gestaoinv.entities.safe.Usuario;
-import br.com.ctcea.gestaoinv.repositories.safe.UsuarioRepository;
+import br.com.ctcea.gestaoinv.entities.Usuario;
+import br.com.ctcea.gestaoinv.repositories.UsuarioRepository;
 import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
 
 @Component
@@ -28,11 +28,11 @@ public class LoginTokenEnhancer implements TokenEnhancer {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("email", user.getEmail());
+		map.put("tp", user.getTermoParceria());
 		
 		DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
 		token.setAdditionalInformation(map);
 		
 		return token;
 	}
-
 }

@@ -15,21 +15,47 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.zxing.WriterException;
 
+import br.com.ctcea.gestaoinv.components.GeradorIDPatrimonial;
 import br.com.ctcea.gestaoinv.dto.TangivelLocacaoDTO;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Ativo;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.TangivelLocacao;
-import br.com.ctcea.gestaoinv.repositories.gestaoinv.TangivelLocacaoRepository;
+import br.com.ctcea.gestaoinv.entities.Area;
+import br.com.ctcea.gestaoinv.entities.Ativo;
+import br.com.ctcea.gestaoinv.entities.Fornecedor;
+import br.com.ctcea.gestaoinv.entities.Localizacao;
+import br.com.ctcea.gestaoinv.entities.TangivelLocacao;
+import br.com.ctcea.gestaoinv.entities.UsuarioResponsavel;
+import br.com.ctcea.gestaoinv.repositories.AreaRepository;
+import br.com.ctcea.gestaoinv.repositories.FornecedorRepository;
+import br.com.ctcea.gestaoinv.repositories.LocalizacaoRepository;
+import br.com.ctcea.gestaoinv.repositories.TangivelLocacaoRepository;
+import br.com.ctcea.gestaoinv.repositories.UsuarioResponsavelRepository;
 import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
 
 @Service
 public class TangivelLocacaoService {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(TangivelLocacaoService.class);
+	private GeradorIDPatrimonial geradorId;
 	
-	private static final String BASE_URL = "http://localhost:3000/gestao-inventario/ativo";
+	public TangivelLocacaoService(GeradorIDPatrimonial gerador) {
+		this.geradorId = gerador;
+	}
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(TangivelLocacaoService.class);
+	private static final String BASE_URL_QR_CODE = "inventario://patrimonio/";
 
 	@Autowired
 	private TangivelLocacaoRepository tangivelLocacaoRepository;
+	
+	@Autowired
+	private FornecedorRepository fornecedorRepository;
+	
+	@Autowired
+	private LocalizacaoRepository localizacaoRepository;
+	
+	@Autowired
+	private UsuarioResponsavelRepository usuarioResponsavelRepository;
+	
+	@Autowired
+	private AreaRepository areaRepository;
 	
 	@Autowired
 	private QRCodeGenerator qrCodeGenerator;
@@ -48,13 +74,28 @@ public class TangivelLocacaoService {
 	}
 	
 	@Transactional
-	public TangivelLocacao register(TangivelLocacaoDTO dto) {
+	public TangivelLocacaoDTO register(TangivelLocacaoDTO dto) {
 		TangivelLocacao newRegister = new TangivelLocacao();
 		
 		dtoToEntity(newRegister, dto);
+		
+		if (!(dto.getIdPatrimonial().isEmpty() || dto.getIdPatrimonial().isBlank()) && dto.getGerarIdPatrimonial() == true) {
+			newRegister.setGerarIdPatrimonial(true);
+		    String idGerado;
+		    boolean idJaExiste;
+
+		    do {
+		        idGerado = geradorId.generate(dto.getCategoria());
+		        idJaExiste = tangivelLocacaoRepository.existsByIdPatrimonial(idGerado);
+
+		    } while (idJaExiste);
+
+		    newRegister.setIdPatrimonial(idGerado);
+		}
+		
 		newRegister = tangivelLocacaoRepository.save(newRegister);
 		
-		String qrCodeUrl = BASE_URL + "/formulario/" + newRegister.getId();
+		String qrCodeUrl = BASE_URL_QR_CODE + newRegister.getId();
 		newRegister.setQrCodeUrl(qrCodeUrl);
 		
 		try {
@@ -72,16 +113,18 @@ public class TangivelLocacaoService {
 		
 		historicoService.recordOperation("REGISTRO", newRegister);
 		
-		if(!newRegister.getUsuarioResponsavel().isEmpty() || !newRegister.getUsuarioResponsavel().equals("N/A")) {
+		if (newRegister.getUsuarioResponsavel().getId() != null
+				|| !newRegister.getUsuarioResponsavel().getNome().equals("N/A")
+				|| !newRegister.getUsuarioResponsavel().getNome().equals("Sem usuário")) {
 			historicoService.recordOperation("ATRIBUIÇÃO", newRegister);
 		}
 		
 		LOGGER.info("[LOG] - Novo ativo tangível de locação {} registrado.", newRegister.getId());
-		return newRegister;
+		return new TangivelLocacaoDTO(newRegister);
 	}
 	
 	@Transactional
-	public TangivelLocacao update(Long id, TangivelLocacaoDTO dto) {
+	public TangivelLocacaoDTO update(Long id, TangivelLocacaoDTO dto) {
 		TangivelLocacao toUpdate = getTangivelLocacaoObject(id);
 		
 		dtoToEntity(toUpdate, dto);
@@ -90,14 +133,14 @@ public class TangivelLocacaoService {
 		historicoService.recordOperation("ATUALIZAÇÃO", toUpdate);
 		
 		LOGGER.info("[LOG] - Ativo tangível de locação {} atualizado.", id);
-		return toUpdate;
+		return new TangivelLocacaoDTO(toUpdate);
 	}
 	
 	@Transactional
-	public TangivelLocacao update(TangivelLocacao obj) {
+	public TangivelLocacaoDTO update(TangivelLocacao obj) {
 		TangivelLocacao ativo = tangivelLocacaoRepository.save(obj);
 		historicoService.recordOperation("ATUALIZAÇÃO", ativo);
-		return ativo;
+		return new TangivelLocacaoDTO(ativo);
 	}
 	
 	public byte[] generateQrCode(Long id) {
@@ -118,18 +161,27 @@ public class TangivelLocacaoService {
 	}
 	
 	private void dtoToEntity(TangivelLocacao entity, TangivelLocacaoDTO dto) {
-		entity.setArea(dto.getArea());
+		Area a = areaRepository.getReferenceById(dto.getArea().getId());
+		entity.setArea(a);
+		
 		entity.setCategoria(dto.getCategoria());
 		entity.setCodigoSerie(dto.getCodigoSerie());
 		entity.setDataAquisicao(dto.getDataAquisicao());
 		entity.setDescricao(dto.getDescricao());
 		entity.setEstadoConservacao(dto.getEstadoConservacao());
-		entity.setFornecedor(dto.getFornecedor());
+		
+		Fornecedor f = fornecedorRepository.getReferenceById(dto.getFornecedor().getId());
+		entity.setFornecedor(f);
+		
 		entity.setIdPatrimonial(dto.getIdPatrimonial());
 		entity.setLinkDocumento(dto.getLinkDocumento());
-		entity.setLocalizacao(dto.getLocalizacao());
+		
+		Localizacao l = localizacaoRepository.getReferenceById(dto.getLocalizacao().getId());
+		entity.setLocalizacao(l);
+		
 		entity.setObservacoes(dto.getObservacoes());
-		entity.setResponsavel(dto.getResponsavel());
-		entity.setUsuarioResponsavel(dto.getUsuarioResponsavel());
+		
+		UsuarioResponsavel ur = usuarioResponsavelRepository.getReferenceById(dto.getUsuarioResponsavel().getId());
+		entity.setUsuarioResponsavel(ur);
 	}
 }

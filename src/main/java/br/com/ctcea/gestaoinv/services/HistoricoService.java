@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ctcea.gestaoinv.dto.HistoricoDTO;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Ativo;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Historico;
-import br.com.ctcea.gestaoinv.entities.safe.Usuario;
-import br.com.ctcea.gestaoinv.repositories.gestaoinv.HistoricoRepository;
+import br.com.ctcea.gestaoinv.entities.Ativo;
+import br.com.ctcea.gestaoinv.entities.Historico;
+import br.com.ctcea.gestaoinv.entities.Usuario;
+import br.com.ctcea.gestaoinv.repositories.HistoricoRepository;
 
 @Service
 public class HistoricoService {
@@ -40,7 +40,7 @@ public class HistoricoService {
 		Historico historico = new Historico();
 		historico.setOperation(operation);
 		historico.setAtivo(ativo);
-		historico.setUserId(Long.valueOf(usuario.getUserId()));
+		historico.setUserId(Long.valueOf(usuario.getId()));
 		historico.setUserLogin(usuario.getLogin());
 		
 		historicoRepository.save(historico);

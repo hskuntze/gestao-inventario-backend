@@ -4,9 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Ativo;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Imagem;
-import br.com.ctcea.gestaoinv.enums.Area;
+import br.com.ctcea.gestaoinv.entities.Ativo;
+import br.com.ctcea.gestaoinv.entities.Imagem;
 import br.com.ctcea.gestaoinv.enums.Categoria;
 
 public class AtivoDTO {
@@ -14,11 +13,10 @@ public class AtivoDTO {
 	private String idPatrimonial;
     private Categoria categoria;
     private String descricao;
-    private Area area;
-    private String localizacao;
-    private String responsavel; //Responsável da ÁREA
-    private String usuarioResponsavel; //Usuário que está utilizando este ativo
-    private String fornecedor;
+    private AreaDTO area;
+    private LocalizacaoDTO localizacao;
+    private UsuarioResponsavelDTO usuarioResponsavel; //Usuário que está utilizando este ativo
+    private FornecedorDTO fornecedor;
     private LocalDate dataAquisicao;
     private String codigoSerie;
     private String observacoes;
@@ -29,6 +27,8 @@ public class AtivoDTO {
 	private List<Imagem> imagens = new ArrayList<>();
 	private String tipoAtivo;
 	
+	private boolean gerarIdPatrimonial;
+	
 	public AtivoDTO() {
 	}
 	
@@ -37,17 +37,17 @@ public class AtivoDTO {
     	this.idPatrimonial = obj.getIdPatrimonial();
     	this.categoria = obj.getCategoria();
     	this.descricao = obj.getDescricao();
-    	this.area = obj.getArea();
-    	this.localizacao = obj.getLocalizacao();
-    	this.responsavel = obj.getResponsavel();
-    	this.usuarioResponsavel = obj.getUsuarioResponsavel();
-    	this.fornecedor = obj.getFornecedor();
+    	this.area = new AreaDTO(obj.getArea());
+    	this.localizacao = new LocalizacaoDTO(obj.getLocalizacao());
+    	this.usuarioResponsavel = new UsuarioResponsavelDTO(obj.getUsuarioResponsavel());
+    	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
     	this.dataAquisicao = obj.getDataAquisicao();
     	this.codigoSerie = obj.getCodigoSerie();
     	this.observacoes = obj.getObservacoes();
     	this.linkDocumento = obj.getLinkDocumento();
     	this.qrCodeImage = obj.getQrCodeImage();
     	this.qrCodeUrl = obj.getQrCodeUrl();
+    	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
     	
     	this.imagens.clear();
     	
@@ -88,43 +88,35 @@ public class AtivoDTO {
 		this.descricao = descricao;
 	}
 
-	public Area getArea() {
+	public AreaDTO getArea() {
 		return area;
 	}
 
-	public void setArea(Area area) {
+	public void setArea(AreaDTO area) {
 		this.area = area;
 	}
 
-	public String getLocalizacao() {
+	public LocalizacaoDTO getLocalizacao() {
 		return localizacao;
 	}
 
-	public void setLocalizacao(String localizacao) {
+	public void setLocalizacao(LocalizacaoDTO localizacao) {
 		this.localizacao = localizacao;
 	}
 
-	public String getResponsavel() {
-		return responsavel;
-	}
-
-	public void setResponsavel(String responsavel) {
-		this.responsavel = responsavel;
-	}
-
-	public String getUsuarioResponsavel() {
+	public UsuarioResponsavelDTO getUsuarioResponsavel() {
 		return usuarioResponsavel;
 	}
 
-	public void setUsuarioResponsavel(String usuarioResponsavel) {
+	public void setUsuarioResponsavel(UsuarioResponsavelDTO usuarioResponsavel) {
 		this.usuarioResponsavel = usuarioResponsavel;
 	}
 
-	public String getFornecedor() {
+	public FornecedorDTO getFornecedor() {
 		return fornecedor;
 	}
 
-	public void setFornecedor(String fornecedor) {
+	public void setFornecedor(FornecedorDTO fornecedor) {
 		this.fornecedor = fornecedor;
 	}
 
@@ -198,5 +190,13 @@ public class AtivoDTO {
 
 	public void setTipoAtivo(String tipoAtivo) {
 		this.tipoAtivo = tipoAtivo;
+	}
+
+	public boolean getGerarIdPatrimonial() {
+		return gerarIdPatrimonial;
+	}
+
+	public void setGerarIdPatrimonial(boolean gerarIdPatrimonial) {
+		this.gerarIdPatrimonial = gerarIdPatrimonial;
 	}
 }

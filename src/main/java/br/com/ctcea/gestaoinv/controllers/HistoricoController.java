@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ctcea.gestaoinv.dto.HistoricoDTO;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Historico;
+import br.com.ctcea.gestaoinv.entities.Historico;
 import br.com.ctcea.gestaoinv.services.HistoricoService;
 
 @RestController

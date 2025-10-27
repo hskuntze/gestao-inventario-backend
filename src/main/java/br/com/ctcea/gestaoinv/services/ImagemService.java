@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Ativo;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Imagem;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Intangivel;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Tangivel;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.TangivelLocacao;
+import br.com.ctcea.gestaoinv.entities.Ativo;
+import br.com.ctcea.gestaoinv.entities.Imagem;
+import br.com.ctcea.gestaoinv.entities.Intangivel;
+import br.com.ctcea.gestaoinv.entities.Tangivel;
+import br.com.ctcea.gestaoinv.entities.TangivelLocacao;
 import br.com.ctcea.gestaoinv.enums.TipoAtivo;
-import br.com.ctcea.gestaoinv.repositories.gestaoinv.ImagemRepository;
+import br.com.ctcea.gestaoinv.repositories.ImagemRepository;
 import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.services.exceptions.RequisicaoNaoProcessavelException;
 

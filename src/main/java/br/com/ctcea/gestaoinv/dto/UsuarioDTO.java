@@ -2,8 +2,10 @@ package br.com.ctcea.gestaoinv.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import br.com.ctcea.gestaoinv.entities.safe.Usuario;
+import br.com.ctcea.gestaoinv.entities.Usuario;
+import br.com.ctcea.gestaoinv.enums.TermoParceria;
 
 public class UsuarioDTO {
 
@@ -11,23 +13,25 @@ public class UsuarioDTO {
 	private String email;
 	private String nome;
 	private String login;
-	private String username;
 	private String userUuid;
-	private List<String> groups = new ArrayList<>();
+	private TermoParceria termoParceria;
+	private List<PerfilDTO> perfis = new ArrayList<>();
 	
  	public UsuarioDTO() {
 	}
 	
 	public UsuarioDTO(Usuario user) {
-		this.id = user.getUserTenantId();
+		this.id = user.getId();
 		this.email = user.getEmail();
-		this.nome = user.getNomeCompleto();
+		this.nome = user.getNome();
 		this.login = user.getLogin();
-		this.username = user.getUsername();
 		this.userUuid = user.getUserUuid();
+		this.termoParceria = user.getTermoParceria();
 		
-		this.groups.clear();
-		user.getAssociacoes().forEach(a -> this.groups.add(a));
+		this.perfis.clear();
+		this.perfis = user.getPerfis().stream()
+                .map(PerfilDTO::new)
+                .collect(Collectors.toList());
 	}
 
 	public Long getId() {
@@ -54,14 +58,6 @@ public class UsuarioDTO {
 		this.login = login;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getUserUuid() {
 		return userUuid;
 	}
@@ -78,7 +74,15 @@ public class UsuarioDTO {
 		this.nome = nome;
 	}
 
-	public List<String> getGroups() {
-		return groups;
+	public TermoParceria getTermoParceria() {
+		return termoParceria;
+	}
+
+	public void setTermoParceria(TermoParceria termoParceria) {
+		this.termoParceria = termoParceria;
+	}
+
+	public List<PerfilDTO> getPerfis() {
+		return perfis;
 	}
 }

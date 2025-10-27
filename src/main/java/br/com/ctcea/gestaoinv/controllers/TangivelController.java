@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ctcea.gestaoinv.dto.TangivelDTO;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Tangivel;
+import br.com.ctcea.gestaoinv.entities.Tangivel;
 import br.com.ctcea.gestaoinv.services.TangivelService;
 
 @RestController
@@ -39,8 +39,13 @@ public class TangivelController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Tangivel> getObject(Long id) {
+	public ResponseEntity<Tangivel> getObject(@PathVariable Long id) {
 		return ResponseEntity.ok().body(tangivelService.getTangivelObject(id));
+	}
+	
+	@GetMapping(value = "/dto/{id}")
+	public ResponseEntity<TangivelDTO> getDto(@PathVariable Long id) {
+		return ResponseEntity.ok().body(tangivelService.getDto(id));
 	}
 
 	@GetMapping(value = "/qrcode/{id}")
@@ -60,15 +65,15 @@ public class TangivelController {
 	}
 
 	@PostMapping(value = "/registrar")
-	public ResponseEntity<Tangivel> register(@RequestBody TangivelDTO dto) {
-		Tangivel t = tangivelService.register(dto);
+	public ResponseEntity<TangivelDTO> register(@RequestBody TangivelDTO dto) {
+		TangivelDTO t = tangivelService.register(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(t.getId()).toUri();
 		return ResponseEntity.created(uri).body(t);
 	}
 
 	@PutMapping(value = "/atualizar/{id}")
-	public ResponseEntity<Tangivel> atualizar(@PathVariable Long id, @RequestBody TangivelDTO dto) {
-		Tangivel t = tangivelService.update(id, dto);
+	public ResponseEntity<TangivelDTO> atualizar(@PathVariable Long id, @RequestBody TangivelDTO dto) {
+		TangivelDTO t = tangivelService.update(id, dto);
 		return ResponseEntity.ok().body(t);
 	}
 

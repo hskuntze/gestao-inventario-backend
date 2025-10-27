@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ctcea.gestaoinv.dto.AtivoDTO;
 import br.com.ctcea.gestaoinv.dto.QuantidadeAtivoDTO;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Ativo;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Intangivel;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Tangivel;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.TangivelLocacao;
-import br.com.ctcea.gestaoinv.repositories.gestaoinv.IntangivelRepository;
-import br.com.ctcea.gestaoinv.repositories.gestaoinv.TangivelLocacaoRepository;
-import br.com.ctcea.gestaoinv.repositories.gestaoinv.TangivelRepository;
+import br.com.ctcea.gestaoinv.entities.Ativo;
+import br.com.ctcea.gestaoinv.entities.Intangivel;
+import br.com.ctcea.gestaoinv.entities.Tangivel;
+import br.com.ctcea.gestaoinv.entities.TangivelLocacao;
+import br.com.ctcea.gestaoinv.repositories.IntangivelRepository;
+import br.com.ctcea.gestaoinv.repositories.TangivelLocacaoRepository;
+import br.com.ctcea.gestaoinv.repositories.TangivelRepository;
 import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
 
 @Service

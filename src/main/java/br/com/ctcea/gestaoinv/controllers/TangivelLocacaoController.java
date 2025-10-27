@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ctcea.gestaoinv.dto.TangivelLocacaoDTO;
-import br.com.ctcea.gestaoinv.entities.gestaoinv.TangivelLocacao;
+import br.com.ctcea.gestaoinv.entities.TangivelLocacao;
 import br.com.ctcea.gestaoinv.services.TangivelLocacaoService;
 
 @RestController
@@ -60,15 +60,15 @@ public class TangivelLocacaoController {
 	}
 	
 	@PostMapping(value = "/registrar")
-	public ResponseEntity<TangivelLocacao> register(@RequestBody TangivelLocacaoDTO dto) {
-		TangivelLocacao tl = tangivelLocacaoService.register(dto);
+	public ResponseEntity<TangivelLocacaoDTO> register(@RequestBody TangivelLocacaoDTO dto) {
+		TangivelLocacaoDTO tl = tangivelLocacaoService.register(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(tl.getId()).toUri();
 		return ResponseEntity.created(uri).body(tl);
 	}
 	
 	@PutMapping(value = "/atualizar/{id}")
-	public ResponseEntity<TangivelLocacao> atualizar(@PathVariable Long id, @RequestBody TangivelLocacaoDTO dto) {
-		TangivelLocacao tl = tangivelLocacaoService.update(id, dto);
+	public ResponseEntity<TangivelLocacaoDTO> atualizar(@PathVariable Long id, @RequestBody TangivelLocacaoDTO dto) {
+		TangivelLocacaoDTO tl = tangivelLocacaoService.update(id, dto);
 		return ResponseEntity.ok().body(tl);
 	}
 	

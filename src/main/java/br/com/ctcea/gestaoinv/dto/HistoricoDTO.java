@@ -2,7 +2,7 @@ package br.com.ctcea.gestaoinv.dto;
 
 import java.time.LocalDateTime;
 
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Historico;
+import br.com.ctcea.gestaoinv.entities.Historico;
 
 public class HistoricoDTO {
 
