@@ -28,6 +28,10 @@ public class Historico {
 	@OneToOne(fetch = FetchType.EAGER)
 	private Ativo ativo;
 	
+	private String area;
+	private String localizacao;
+	private String usuarioResponsavel;
+	
 	private Long userId;
 	private String userLogin;
 	
@@ -62,6 +66,30 @@ public class Historico {
 		this.ativo = ativo;
 	}
 	
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public String getLocalizacao() {
+		return localizacao;
+	}
+
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
+	}
+
+	public String getUsuarioResponsavel() {
+		return usuarioResponsavel;
+	}
+
+	public void setUsuarioResponsavel(String usuarioResponsavel) {
+		this.usuarioResponsavel = usuarioResponsavel;
+	}
+
 	public Long getUserId() {
 		return userId;
 	}

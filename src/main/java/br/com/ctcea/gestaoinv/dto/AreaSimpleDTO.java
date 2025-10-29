@@ -1,29 +1,22 @@
 package br.com.ctcea.gestaoinv.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.ctcea.gestaoinv.entities.Area;
 
-public class AreaDTO {
+public class AreaSimpleDTO {
 	
 	private Long id;
 	private String nome;
 	private String responsavel;
 	private String substitutoResponsavel;
 	
-	private List<LocalizacaoDTO> localizacoes = new ArrayList<>();
-	
-	public AreaDTO() {
+	public AreaSimpleDTO() {
 	}
 	
-	public AreaDTO(Area obj) {
+	public AreaSimpleDTO(Area obj) {
 		this.id = obj.getId();
 		this.nome = obj.getNome();
 		this.responsavel = obj.getResponsavel();
 		this.substitutoResponsavel = obj.getSubstitutoResponsavel();
-		
-		obj.getLocalizacoes().forEach(l -> this.localizacoes.add(new LocalizacaoDTO(l)));
 	}
 
 	public Long getId() {
@@ -56,9 +49,5 @@ public class AreaDTO {
 
 	public void setSubstitutoResponsavel(String substitutoResponsavel) {
 		this.substitutoResponsavel = substitutoResponsavel;
-	}
-
-	public List<LocalizacaoDTO> getLocalizacoes() {
-		return localizacoes;
 	}
 }

@@ -9,9 +9,12 @@ public class HistoricoDTO {
 	private Long id;
 	private LocalDateTime createdAt;
 	private String operation;
-	private Long ativo;
+	private String area;
+	private String localizacao;
+	private String usuarioResponsavel;
 	private Long userId;
 	private String userLogin;
+	private AtivoDTO ativo;
 	
 	public HistoricoDTO() {
 	}
@@ -20,9 +23,13 @@ public class HistoricoDTO {
 		this.id = obj.getId();
 		this.createdAt = obj.getCreatedAt();
 		this.operation = obj.getOperation();
-		this.ativo = obj.getAtivo().getId();
 		this.userId = obj.getUserId();
 		this.userLogin = obj.getUserLogin();
+		this.area = obj.getArea();
+		this.localizacao = obj.getLocalizacao();
+		this.usuarioResponsavel = obj.getUsuarioResponsavel();
+		
+		this.ativo = new AtivoDTO(obj.getAtivo());
 	}
 
 	public Long getId() {
@@ -49,11 +56,11 @@ public class HistoricoDTO {
 		this.operation = operation;
 	}
 
-	public Long getAtivo() {
+	public AtivoDTO getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Long ativo) {
+	public void setAtivo(AtivoDTO ativo) {
 		this.ativo = ativo;
 	}
 
@@ -71,5 +78,29 @@ public class HistoricoDTO {
 
 	public void setUserLogin(String userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public String getLocalizacao() {
+		return localizacao;
+	}
+
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
+	}
+
+	public String getUsuarioResponsavel() {
+		return usuarioResponsavel;
+	}
+
+	public void setUsuarioResponsavel(String usuarioResponsavel) {
+		this.usuarioResponsavel = usuarioResponsavel;
 	}
 }

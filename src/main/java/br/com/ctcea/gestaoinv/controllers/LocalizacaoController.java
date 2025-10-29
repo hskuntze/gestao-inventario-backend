@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,8 +19,8 @@ public class LocalizacaoController {
 	@Autowired
 	private LocalizacaoService localizacaoService;
 	
-	@GetMapping(value = "/all")
-	public ResponseEntity<List<LocalizacaoDTO>> getAll() {
-		return ResponseEntity.ok().body(localizacaoService.getAll());
+	@GetMapping(value = "/all/{id}")
+	public ResponseEntity<List<LocalizacaoDTO>> getAll(@PathVariable Long id) {
+		return ResponseEntity.ok().body(localizacaoService.getAllFromArea(id));
 	}
 }

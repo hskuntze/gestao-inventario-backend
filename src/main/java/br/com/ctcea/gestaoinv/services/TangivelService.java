@@ -44,12 +44,12 @@ public class TangivelService {
 
 	@Autowired
 	private TangivelRepository tangivelRepository;
+	
+	@Autowired
+	private LocalizacaoRepository localizacaoRepository;
 
 	@Autowired
 	private FornecedorRepository fornecedorRepository;
-
-	@Autowired
-	private LocalizacaoRepository localizacaoRepository;
 
 	@Autowired
 	private UsuarioResponsavelRepository usuarioResponsavelRepository;
@@ -86,38 +86,8 @@ public class TangivelService {
 		Tangivel newRegister = new Tangivel();
 
 		dtoToEntity(newRegister, dto);
-		
-		if (dto.getGerarIdPatrimonial() == true) {
-			newRegister.setGerarIdPatrimonial(true);
-		    String idGerado;
-		    boolean idJaExiste;
-
-		    do {
-		        idGerado = geradorId.generate(dto.getCategoria());
-		        idJaExiste = tangivelRepository.existsByIdPatrimonial(idGerado);
-
-		    } while (idJaExiste);
-
-		    newRegister.setIdPatrimonial(idGerado);
-		}
-		
-		newRegister = tangivelRepository.save(newRegister);
-
-		String qrCodeUrl = BASE_URL_QR_CODE + newRegister.getId();
-		newRegister.setQrCodeUrl(qrCodeUrl);
-
-		try {
-			BufferedImage qr = QRCodeGenerator.gerarQRCode(qrCodeUrl);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(qr, "png", baos);
-			newRegister.setQrCodeImage(baos.toByteArray());
-		} catch (WriterException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		newRegister = tangivelRepository.save(newRegister);
+		gerarIdPatrimonial(dto, newRegister);
+		gerarQRCode(newRegister);
 
 		historicoService.recordOperation("REGISTRO", newRegister);
 
@@ -171,7 +141,10 @@ public class TangivelService {
 	private void dtoToEntity(Tangivel entity, TangivelDTO dto) {
 		Area a = areaRepository.getReferenceById(dto.getArea().getId());
 		entity.setArea(a);
-
+		
+		Localizacao l = localizacaoRepository.getReferenceById(dto.getLocalizacao().getId());
+		entity.setLocalizacao(l);
+		
 		entity.setCategoria(dto.getCategoria());
 		entity.setCodigoSerie(dto.getCodigoSerie());
 		entity.setDataAquisicao(dto.getDataAquisicao());
@@ -184,12 +157,45 @@ public class TangivelService {
 		entity.setIdPatrimonial(dto.getIdPatrimonial());
 		entity.setLinkDocumento(dto.getLinkDocumento());
 
-		Localizacao l = localizacaoRepository.getReferenceById(dto.getLocalizacao().getId());
-		entity.setLocalizacao(l);
-
 		entity.setObservacoes(dto.getObservacoes());
 
 		UsuarioResponsavel ur = usuarioResponsavelRepository.getReferenceById(dto.getUsuarioResponsavel().getId());
 		entity.setUsuarioResponsavel(ur);
+	}
+	
+	private void gerarQRCode(Tangivel newRegister) {
+		String qrCodeUrl = BASE_URL_QR_CODE + newRegister.getId();
+		newRegister.setQrCodeUrl(qrCodeUrl);
+
+		try {
+			BufferedImage qr = QRCodeGenerator.gerarQRCode(qrCodeUrl);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(qr, "png", baos);
+			newRegister.setQrCodeImage(baos.toByteArray());
+		} catch (WriterException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		newRegister = tangivelRepository.save(newRegister);
+	}
+	
+	private void gerarIdPatrimonial(TangivelDTO dto, Tangivel newRegister) {
+		if (dto.getGerarIdPatrimonial() == true) {
+			newRegister.setGerarIdPatrimonial(true);
+		    String idGerado;
+		    boolean idJaExiste;
+
+		    do {
+		        idGerado = geradorId.generate();
+		        idJaExiste = tangivelRepository.existsByIdPatrimonial(idGerado);
+
+		    } while (idJaExiste);
+
+		    newRegister.setIdPatrimonial(idGerado);
+		}
+		
+		newRegister = tangivelRepository.save(newRegister);
 	}
 }

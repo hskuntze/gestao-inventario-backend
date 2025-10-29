@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.ctcea.gestaoinv.entities.Usuario;
-import br.com.ctcea.gestaoinv.enums.Categoria;
 import br.com.ctcea.gestaoinv.enums.TermoParceria;
 import br.com.ctcea.gestaoinv.services.UsuarioService;
 
@@ -28,15 +27,14 @@ public class GeradorIDPatrimonial {
 	    return sb.toString();
 	}
 	
-	public String generate(Categoria categoria) {
+	public String generate() {
 		Usuario usuario = usuarioService.getAuthenticatedUser();
 		
 		TermoParceria tp = usuario.getTermoParceria();
 		
 		String prefixoTP = tp.toString();
-	    String prefixoCat = categoria.toString();
 		String parteRandomica = generateRandomString(6);
 		
-		return prefixoTP + "/" + prefixoCat + "/" + parteRandomica;
+		return prefixoTP + "/" + parteRandomica;
 	}
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ctcea.gestaoinv.dto.HistoricoDTO;
-import br.com.ctcea.gestaoinv.entities.Historico;
 import br.com.ctcea.gestaoinv.services.HistoricoService;
 
 @RestController
@@ -21,8 +20,8 @@ public class HistoricoController {
 	private HistoricoService historicoService;
 	
 	@GetMapping(value = "/all")
-	public ResponseEntity<List<Historico>> getAll() {
-		return ResponseEntity.ok().body(historicoService.getAll());
+	public ResponseEntity<List<HistoricoDTO>> getAllDto() {
+		return ResponseEntity.ok().body(historicoService.getAllDto());
 	}
 	
 	@GetMapping(value = "/ativo/{id}")

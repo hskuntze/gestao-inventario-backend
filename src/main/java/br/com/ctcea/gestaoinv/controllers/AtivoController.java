@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ctcea.gestaoinv.dto.AtivoDTO;
+import br.com.ctcea.gestaoinv.dto.MovimentacaoAtivoDTO;
 import br.com.ctcea.gestaoinv.dto.QuantidadeAtivoDTO;
 import br.com.ctcea.gestaoinv.services.AtivoService;
 
@@ -33,5 +36,11 @@ public class AtivoController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<AtivoDTO> getAtivoById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(ativoService.getAtivoById(id));
+	}
+	
+	@PostMapping(value = "/movimentar")
+	public ResponseEntity<Void> movimentarAtivo(@RequestBody MovimentacaoAtivoDTO dto) {
+		ativoService.movimentarAtivo(dto);
+		return ResponseEntity.noContent().build();
 	}
 }

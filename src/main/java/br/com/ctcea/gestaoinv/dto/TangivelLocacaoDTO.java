@@ -11,7 +11,7 @@ public class TangivelLocacaoDTO {
 	private String idPatrimonial;
     private Categoria categoria;
     private String descricao;
-    private AreaDTO area;
+    private AreaSimpleDTO area;
     private LocalizacaoDTO localizacao;
     private UsuarioResponsavelDTO usuarioResponsavel; //Usuário que está utilizando este ativo
     private FornecedorDTO fornecedor;
@@ -31,8 +31,7 @@ public class TangivelLocacaoDTO {
     	this.idPatrimonial = obj.getIdPatrimonial();
     	this.categoria = obj.getCategoria();
     	this.descricao = obj.getDescricao();
-    	this.area = new AreaDTO(obj.getArea());
-    	this.localizacao = new LocalizacaoDTO(obj.getLocalizacao());
+    	this.area = new AreaSimpleDTO(obj.getArea());
     	this.usuarioResponsavel = new UsuarioResponsavelDTO(obj.getUsuarioResponsavel());
     	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
     	this.dataAquisicao = obj.getDataAquisicao();
@@ -41,6 +40,10 @@ public class TangivelLocacaoDTO {
     	this.linkDocumento = obj.getLinkDocumento();
     	this.estadoConservacao = obj.getEstadoConservacao();
     	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
+    	
+    	if(obj.getLocalizacao() != null) {
+        	this.localizacao = new LocalizacaoDTO(obj.getLocalizacao());
+    	}
     }
 
 	public Long getId() {
@@ -75,11 +78,11 @@ public class TangivelLocacaoDTO {
 		this.descricao = descricao;
 	}
 
-	public AreaDTO getArea() {
+	public AreaSimpleDTO getArea() {
 		return area;
 	}
 
-	public void setArea(AreaDTO area) {
+	public void setArea(AreaSimpleDTO area) {
 		this.area = area;
 	}
 

@@ -27,6 +27,12 @@ public class HistoricoService {
 		return historicoRepository.findAll();
 	}
 	
+	@Transactional(readOnly = true)
+	public List<HistoricoDTO> getAllDto() {
+		List<Historico> all = historicoRepository.findAll();
+		return all.stream().map(h -> new HistoricoDTO(h)).collect(Collectors.toList());
+	}
+	
 	@Transactional
 	public List<HistoricoDTO> getHistoricoByAtivoId(Long id) {
 		List<Historico> list = historicoRepository.getHistoricoByAtivoId(id);
@@ -42,6 +48,9 @@ public class HistoricoService {
 		historico.setAtivo(ativo);
 		historico.setUserId(Long.valueOf(usuario.getId()));
 		historico.setUserLogin(usuario.getLogin());
+		historico.setArea(ativo.getArea().getNome());
+		historico.setLocalizacao(ativo.getLocalizacao().getNome());
+		historico.setUsuarioResponsavel(ativo.getUsuarioResponsavel().getNome());
 		
 		historicoRepository.save(historico);
 	}

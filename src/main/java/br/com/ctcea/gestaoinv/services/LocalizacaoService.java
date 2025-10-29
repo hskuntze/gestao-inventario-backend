@@ -18,8 +18,8 @@ public class LocalizacaoService {
 	private LocalizacaoRepository localizacaoRepository;
 	
 	@Transactional(readOnly = true)
-	public List<LocalizacaoDTO> getAll() {
-		List<Localizacao> all = localizacaoRepository.findAll();
+	public List<LocalizacaoDTO> getAllFromArea(Long id) {
+		List<Localizacao> all = localizacaoRepository.getAllFromArea(id);
 		return all.stream().map(l -> new LocalizacaoDTO(l)).collect(Collectors.toList());
 	}
 }
