@@ -159,4 +159,46 @@ public class AtivoService {
 		
 		historicoService.recordOperation("MOVIMENTAÇÃO", obj);
 	}
+	
+	@Transactional
+	public void desabilitarAtivo(Long id, String razao) {
+		Ativo obj = getObjectById(id);
+		obj.setDesabilitado(true);
+		obj.setRazaoDesabilitado(razao);
+		
+		if(obj instanceof Tangivel) {
+			tangivelRepository.save((Tangivel) obj);
+		}
+		
+		if(obj instanceof Intangivel) {
+			intangivelRepository.save((Intangivel) obj);
+		}
+		
+		if(obj instanceof TangivelLocacao) {
+			tangivelLocacaoRepository.save((TangivelLocacao) obj);
+		}
+		
+		historicoService.recordOperation("DESABILITAR", obj);
+	}
+	
+	@Transactional
+	public void habilitarAtivo(Long id) {
+		Ativo obj = getObjectById(id);
+		obj.setDesabilitado(false);
+		obj.setRazaoDesabilitado(null);
+		
+		if(obj instanceof Tangivel) {
+			tangivelRepository.save((Tangivel) obj);
+		}
+		
+		if(obj instanceof Intangivel) {
+			intangivelRepository.save((Intangivel) obj);
+		}
+		
+		if(obj instanceof TangivelLocacao) {
+			tangivelLocacaoRepository.save((TangivelLocacao) obj);
+		}
+		
+		historicoService.recordOperation("HABILITAR", obj);
+	}
 }

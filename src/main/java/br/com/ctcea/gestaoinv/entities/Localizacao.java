@@ -42,9 +42,17 @@ public class Localizacao {
 		this.nome = nome;
 	}
 
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(id, nome);
 	}
 
 	@Override
@@ -56,6 +64,6 @@ public class Localizacao {
 		if (getClass() != obj.getClass())
 			return false;
 		Localizacao other = (Localizacao) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(id, other.id) && Objects.equals(nome, other.nome);
 	}
 }

@@ -22,6 +22,8 @@ public class TangivelDTO {
     private String estadoConservacao;
 
 	private boolean gerarIdPatrimonial;
+    private boolean desabilitado;
+    private String razaoDesabilitado;
     
     public TangivelDTO() {
 	}
@@ -40,6 +42,8 @@ public class TangivelDTO {
     	this.linkDocumento = obj.getLinkDocumento();
     	this.estadoConservacao = obj.getEstadoConservacao();
     	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
+    	this.desabilitado = obj.isDesabilitado();
+    	this.razaoDesabilitado = obj.getRazaoDesabilitado();
     	
     	if(obj.getLocalizacao() != null) {
         	this.localizacao = new LocalizacaoDTO(obj.getLocalizacao());
@@ -156,5 +160,21 @@ public class TangivelDTO {
 
 	public void setGerarIdPatrimonial(boolean gerarIdPatrimonial) {
 		this.gerarIdPatrimonial = gerarIdPatrimonial;
+	}
+
+	public boolean isDesabilitado() {
+		return desabilitado;
+	}
+
+	public void setDesabilitado(boolean desabilitado) {
+		this.desabilitado = desabilitado;
+	}
+
+	public String getRazaoDesabilitado() {
+		return razaoDesabilitado;
+	}
+
+	public void setRazaoDesabilitado(String razaoDesabilitado) {
+		this.razaoDesabilitado = razaoDesabilitado;
 	}
 }

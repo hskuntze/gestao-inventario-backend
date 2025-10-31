@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.ctcea.gestaoinv.dto.TrocaSenhaRequestDTO;
 import br.com.ctcea.gestaoinv.dto.UsuarioDTO;
 import br.com.ctcea.gestaoinv.dto.UsuarioRegistroDTO;
+import br.com.ctcea.gestaoinv.dto.UsuarioSimpleDTO;
 import br.com.ctcea.gestaoinv.services.UsuarioService;
 
 @RestController
@@ -43,6 +44,11 @@ public class UsuarioController {
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<UsuarioDTO>> getAll() {
 		return ResponseEntity.ok().body(usuarioService.getAll());
+	}
+	
+	@GetMapping(value = "/authenticated/info")
+	public ResponseEntity<UsuarioSimpleDTO> getAuthenticatedUserInfo() {
+		return ResponseEntity.ok().body(usuarioService.getAuthenticatedUserInfo());
 	}
 	
 	/**

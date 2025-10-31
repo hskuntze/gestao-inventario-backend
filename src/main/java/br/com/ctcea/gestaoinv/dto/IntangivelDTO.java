@@ -21,6 +21,8 @@ public class IntangivelDTO {
     private String linkDocumento;
 
 	private boolean gerarIdPatrimonial;
+    private boolean desabilitado;
+    private String razaoDesabilitado;
 	
     public IntangivelDTO() {
 	}
@@ -38,6 +40,8 @@ public class IntangivelDTO {
     	this.observacoes = obj.getObservacoes();
     	this.linkDocumento = obj.getLinkDocumento();
     	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
+    	this.desabilitado = obj.isDesabilitado();
+    	this.razaoDesabilitado = obj.getRazaoDesabilitado();
     	
     	if(obj.getLocalizacao() != null) {
         	this.localizacao = new LocalizacaoDTO(obj.getLocalizacao());
@@ -146,5 +150,21 @@ public class IntangivelDTO {
 
 	public void setGerarIdPatrimonial(boolean gerarIdPatrimonial) {
 		this.gerarIdPatrimonial = gerarIdPatrimonial;
+	}
+
+	public boolean isDesabilitado() {
+		return desabilitado;
+	}
+
+	public void setDesabilitado(boolean desabilitado) {
+		this.desabilitado = desabilitado;
+	}
+
+	public String getRazaoDesabilitado() {
+		return razaoDesabilitado;
+	}
+
+	public void setRazaoDesabilitado(String razaoDesabilitado) {
+		this.razaoDesabilitado = razaoDesabilitado;
 	}
 }

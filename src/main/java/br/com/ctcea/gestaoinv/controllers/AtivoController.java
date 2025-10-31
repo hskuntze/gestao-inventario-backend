@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ctcea.gestaoinv.dto.AtivoDTO;
@@ -41,6 +42,18 @@ public class AtivoController {
 	@PostMapping(value = "/movimentar")
 	public ResponseEntity<Void> movimentarAtivo(@RequestBody MovimentacaoAtivoDTO dto) {
 		ativoService.movimentarAtivo(dto);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping(value = "/desabilitar")
+	public ResponseEntity<Void> desabilitarAtivo(@RequestParam Long id, @RequestParam String razao) {
+		ativoService.desabilitarAtivo(id, razao);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping(value = "/habilitar")
+	public ResponseEntity<Void> habilitarAtivo(@RequestParam Long id) {
+		ativoService.habilitarAtivo(id);
 		return ResponseEntity.noContent().build();
 	}
 }

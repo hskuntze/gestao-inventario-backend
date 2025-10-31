@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ctcea.gestaoinv.dto.UsuarioDTO;
 import br.com.ctcea.gestaoinv.dto.UsuarioRegistroDTO;
+import br.com.ctcea.gestaoinv.dto.UsuarioSimpleDTO;
 import br.com.ctcea.gestaoinv.entities.Perfil;
 import br.com.ctcea.gestaoinv.entities.Usuario;
 import br.com.ctcea.gestaoinv.repositories.PerfilRepository;
@@ -46,6 +47,12 @@ public class UsuarioService implements UserDetailsService {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Usuario usuario = usuarioRepository.findByLogin(auth.getName()).orElseThrow(() -> new RecursoNaoEncontradoException("Erro ao tentar resgatar usuário logado"));
 		return usuario;
+	}
+	
+	@Transactional(readOnly = true)
+	public UsuarioSimpleDTO getAuthenticatedUserInfo() {
+		Usuario user = getAuthenticatedUser();
+		return new UsuarioSimpleDTO(user);
 	}
  	
 	@Transactional(readOnly = true)
