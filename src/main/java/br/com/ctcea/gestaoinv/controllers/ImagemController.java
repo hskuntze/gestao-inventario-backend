@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Imagem;
+import br.com.ctcea.gestaoinv.entities.Imagem;
 import br.com.ctcea.gestaoinv.enums.TipoAtivo;
 import br.com.ctcea.gestaoinv.services.ImagemService;
 

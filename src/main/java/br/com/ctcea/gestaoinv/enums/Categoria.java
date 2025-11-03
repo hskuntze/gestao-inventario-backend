@@ -6,6 +6,7 @@ public enum Categoria {
 	EPI("EPI"),
 	INFORMATICA("Informática"),
 	MOBILIARIO("Mobiliário"),
+	CERTIFICADO("Certificado"),
 	SOFTWARE("Software");
 	
 	private final String tipo;

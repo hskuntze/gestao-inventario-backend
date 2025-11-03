@@ -2,8 +2,7 @@ package br.com.ctcea.gestaoinv.dto;
 
 import java.time.LocalDate;
 
-import br.com.ctcea.gestaoinv.entities.gestaoinv.Tangivel;
-import br.com.ctcea.gestaoinv.enums.Area;
+import br.com.ctcea.gestaoinv.entities.TangivelLocacao;
 import br.com.ctcea.gestaoinv.enums.Categoria;
 
 public class TangivelLocacaoDTO {
@@ -12,35 +11,43 @@ public class TangivelLocacaoDTO {
 	private String idPatrimonial;
     private Categoria categoria;
     private String descricao;
-    private Area area;
-    private String localizacao;
-    private String responsavel; //Responsável da ÁREA
-    private String usuarioResponsavel; //Usuário que está utilizando este ativo
-    private String fornecedor;
+    private AreaSimpleDTO area;
+    private LocalizacaoDTO localizacao;
+    private UsuarioResponsavelDTO usuarioResponsavel; //Usuário que está utilizando este ativo
+    private FornecedorDTO fornecedor;
     private LocalDate dataAquisicao;
     private String codigoSerie;
     private String observacoes;
     private String linkDocumento;
     private String estadoConservacao;
     
+	private boolean gerarIdPatrimonial;
+    private boolean desabilitado;
+    private String razaoDesabilitado;
+    
     public TangivelLocacaoDTO() {
 	}
     
-    public TangivelLocacaoDTO(Tangivel obj) {
+    public TangivelLocacaoDTO(TangivelLocacao obj) {
     	this.id = obj.getId();
     	this.idPatrimonial = obj.getIdPatrimonial();
     	this.categoria = obj.getCategoria();
     	this.descricao = obj.getDescricao();
-    	this.area = obj.getArea();
-    	this.localizacao = obj.getLocalizacao();
-    	this.responsavel = obj.getResponsavel();
-    	this.usuarioResponsavel = obj.getUsuarioResponsavel();
-    	this.fornecedor = obj.getFornecedor();
+    	this.area = new AreaSimpleDTO(obj.getArea());
+    	this.usuarioResponsavel = new UsuarioResponsavelDTO(obj.getUsuarioResponsavel());
+    	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
     	this.dataAquisicao = obj.getDataAquisicao();
     	this.codigoSerie = obj.getCodigoSerie();
     	this.observacoes = obj.getObservacoes();
     	this.linkDocumento = obj.getLinkDocumento();
     	this.estadoConservacao = obj.getEstadoConservacao();
+    	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
+    	this.desabilitado = obj.isDesabilitado();
+    	this.razaoDesabilitado = obj.getRazaoDesabilitado();
+    	
+    	if(obj.getLocalizacao() != null) {
+        	this.localizacao = new LocalizacaoDTO(obj.getLocalizacao());
+    	}
     }
 
 	public Long getId() {
@@ -75,43 +82,35 @@ public class TangivelLocacaoDTO {
 		this.descricao = descricao;
 	}
 
-	public Area getArea() {
+	public AreaSimpleDTO getArea() {
 		return area;
 	}
 
-	public void setArea(Area area) {
+	public void setArea(AreaSimpleDTO area) {
 		this.area = area;
 	}
 
-	public String getLocalizacao() {
+	public LocalizacaoDTO getLocalizacao() {
 		return localizacao;
 	}
 
-	public void setLocalizacao(String localizacao) {
+	public void setLocalizacao(LocalizacaoDTO localizacao) {
 		this.localizacao = localizacao;
 	}
 
-	public String getResponsavel() {
-		return responsavel;
-	}
-
-	public void setResponsavel(String responsavel) {
-		this.responsavel = responsavel;
-	}
-
-	public String getUsuarioResponsavel() {
+	public UsuarioResponsavelDTO getUsuarioResponsavel() {
 		return usuarioResponsavel;
 	}
 
-	public void setUsuarioResponsavel(String usuarioResponsavel) {
+	public void setUsuarioResponsavel(UsuarioResponsavelDTO usuarioResponsavel) {
 		this.usuarioResponsavel = usuarioResponsavel;
 	}
 
-	public String getFornecedor() {
+	public FornecedorDTO getFornecedor() {
 		return fornecedor;
 	}
 
-	public void setFornecedor(String fornecedor) {
+	public void setFornecedor(FornecedorDTO fornecedor) {
 		this.fornecedor = fornecedor;
 	}
 
@@ -153,5 +152,29 @@ public class TangivelLocacaoDTO {
 
 	public void setEstadoConservacao(String estadoConservacao) {
 		this.estadoConservacao = estadoConservacao;
+	}
+
+	public boolean getGerarIdPatrimonial() {
+		return gerarIdPatrimonial;
+	}
+
+	public void setGerarIdPatrimonial(boolean gerarIdPatrimonial) {
+		this.gerarIdPatrimonial = gerarIdPatrimonial;
+	}
+
+	public boolean isDesabilitado() {
+		return desabilitado;
+	}
+
+	public void setDesabilitado(boolean desabilitado) {
+		this.desabilitado = desabilitado;
+	}
+
+	public String getRazaoDesabilitado() {
+		return razaoDesabilitado;
+	}
+
+	public void setRazaoDesabilitado(String razaoDesabilitado) {
+		this.razaoDesabilitado = razaoDesabilitado;
 	}
 }
