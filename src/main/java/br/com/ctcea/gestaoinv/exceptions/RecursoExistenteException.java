@@ -1,4 +1,4 @@
-package br.com.ctcea.gestaoinv.services.exceptions;
+package br.com.ctcea.gestaoinv.exceptions;
 
 public class RecursoExistenteException extends RuntimeException {
 	private static final long serialVersionUID = -1050710709668769192L;

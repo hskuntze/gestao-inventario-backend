@@ -1,4 +1,4 @@
-package br.com.ctcea.gestaoinv.services.exceptions;
+package br.com.ctcea.gestaoinv.exceptions;
 
 public class RequisicaoNaoProcessavelException extends RuntimeException {
 	private static final long serialVersionUID = 1979951337649570934L;

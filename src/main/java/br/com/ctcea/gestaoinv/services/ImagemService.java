@@ -14,9 +14,9 @@ import br.com.ctcea.gestaoinv.entities.Intangivel;
 import br.com.ctcea.gestaoinv.entities.Tangivel;
 import br.com.ctcea.gestaoinv.entities.TangivelLocacao;
 import br.com.ctcea.gestaoinv.enums.TipoAtivo;
+import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
+import br.com.ctcea.gestaoinv.exceptions.RequisicaoNaoProcessavelException;
 import br.com.ctcea.gestaoinv.repositories.ImagemRepository;
-import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
-import br.com.ctcea.gestaoinv.services.exceptions.RequisicaoNaoProcessavelException;
 
 @Service
 public class ImagemService {

@@ -22,11 +22,11 @@ import br.com.ctcea.gestaoinv.dto.UsuarioRegistroDTO;
 import br.com.ctcea.gestaoinv.dto.UsuarioSimpleDTO;
 import br.com.ctcea.gestaoinv.entities.Perfil;
 import br.com.ctcea.gestaoinv.entities.Usuario;
+import br.com.ctcea.gestaoinv.exceptions.RecursoExistenteException;
+import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
+import br.com.ctcea.gestaoinv.exceptions.RequisicaoNaoProcessavelException;
 import br.com.ctcea.gestaoinv.repositories.PerfilRepository;
 import br.com.ctcea.gestaoinv.repositories.UsuarioRepository;
-import br.com.ctcea.gestaoinv.services.exceptions.RecursoExistenteException;
-import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
-import br.com.ctcea.gestaoinv.services.exceptions.RequisicaoNaoProcessavelException;
 
 @Service
 public class UsuarioService implements UserDetailsService {

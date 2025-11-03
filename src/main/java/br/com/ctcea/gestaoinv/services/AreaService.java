@@ -11,8 +11,8 @@ import br.com.ctcea.gestaoinv.dto.AreaDTO;
 import br.com.ctcea.gestaoinv.dto.LocalizacaoDTO;
 import br.com.ctcea.gestaoinv.entities.Area;
 import br.com.ctcea.gestaoinv.entities.Localizacao;
+import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.AreaRepository;
-import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
 
 @Service
 public class AreaService {
@@ -55,12 +55,13 @@ public class AreaService {
 	    );
 		
 		for (LocalizacaoDTO lDto : dto.getLocalizacoes()) {
+			Long locId = (lDto.getId() != null && lDto.getId() > 0) ? lDto.getId() : null;
 	        Localizacao localizacao;
 
-	        if (lDto.getId() != null) {
+	        if (locId != null) {
 	            // Tenta encontrar uma existente na lista atual
 	            localizacao = area.getLocalizacoes().stream()
-	                .filter(existing -> existing.getId().equals(lDto.getId()))
+	            	.filter(existing -> existing.getId() != null && existing.getId().equals(lDto.getId()))
 	                .findFirst()
 	                .orElseGet(Localizacao::new);
 	        } else {

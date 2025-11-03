@@ -58,7 +58,7 @@ public class UsuarioController {
 	 * @param errors
 	 * @return UsuarioDTO
 	 */
-	@PostMapping(value = "/registrar")
+	@PostMapping(value = "/register")
 	public ResponseEntity<UsuarioDTO> registrar(@RequestBody UsuarioRegistroDTO dto, HttpServletRequest request, Errors errors) {
 		UsuarioDTO usuario = usuarioService.registrar(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
@@ -89,7 +89,7 @@ public class UsuarioController {
 	 * @param dto
 	 * @return
 	 */
-	@PutMapping(value = "/atualizar/{id}")
+	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
 		UsuarioDTO atualizado = usuarioService.atualizar(id, dto);
 		return ResponseEntity.ok().body(atualizado);

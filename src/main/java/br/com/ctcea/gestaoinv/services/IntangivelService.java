@@ -23,12 +23,12 @@ import br.com.ctcea.gestaoinv.entities.Fornecedor;
 import br.com.ctcea.gestaoinv.entities.Intangivel;
 import br.com.ctcea.gestaoinv.entities.Localizacao;
 import br.com.ctcea.gestaoinv.entities.UsuarioResponsavel;
+import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.AreaRepository;
 import br.com.ctcea.gestaoinv.repositories.FornecedorRepository;
 import br.com.ctcea.gestaoinv.repositories.IntangivelRepository;
 import br.com.ctcea.gestaoinv.repositories.LocalizacaoRepository;
 import br.com.ctcea.gestaoinv.repositories.UsuarioResponsavelRepository;
-import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
 
 @Service
 public class IntangivelService {

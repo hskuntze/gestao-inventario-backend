@@ -1,4 +1,4 @@
-package br.com.ctcea.gestaoinv.services.exceptions;
+package br.com.ctcea.gestaoinv.exceptions;
 
 public class RecursoNaoEncontradoException extends RuntimeException {
 	private static final long serialVersionUID = 6016576005960652003L;

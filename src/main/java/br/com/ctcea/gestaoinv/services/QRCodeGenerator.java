@@ -28,8 +28,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
-import br.com.ctcea.gestaoinv.services.exceptions.RequisicaoNaoProcessavelException;
+import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
+import br.com.ctcea.gestaoinv.exceptions.RequisicaoNaoProcessavelException;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;

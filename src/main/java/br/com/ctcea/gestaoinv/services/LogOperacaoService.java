@@ -8,9 +8,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.ctcea.gestaoinv.exceptions.OperacaoNaoExecutadaException;
 import br.com.ctcea.gestaoinv.logs.LogOperacao;
 import br.com.ctcea.gestaoinv.repositories.LogOperacaoRepository;
-import br.com.ctcea.gestaoinv.services.exceptions.OperacaoNaoExecutadaException;
 
 @Service
 public class LogOperacaoService {

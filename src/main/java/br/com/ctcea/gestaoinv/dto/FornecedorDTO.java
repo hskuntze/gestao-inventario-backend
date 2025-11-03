@@ -17,6 +17,10 @@ public class FornecedorDTO {
 	public FornecedorDTO(Fornecedor obj) {
 		this.id = obj.getId();
 		this.nome = obj.getNome();
+		this.cnpj = obj.getCnpj();
+		this.contatoEmail = obj.getContatoEmail();
+		this.contatoNome = obj.getContatoNome();
+		this.contatoTelefone = obj.getContatoTelefone();
 	}
 
 	public Long getId() {

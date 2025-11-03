@@ -19,13 +19,13 @@ import br.com.ctcea.gestaoinv.entities.Localizacao;
 import br.com.ctcea.gestaoinv.entities.Tangivel;
 import br.com.ctcea.gestaoinv.entities.TangivelLocacao;
 import br.com.ctcea.gestaoinv.entities.UsuarioResponsavel;
+import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.AreaRepository;
 import br.com.ctcea.gestaoinv.repositories.IntangivelRepository;
 import br.com.ctcea.gestaoinv.repositories.LocalizacaoRepository;
 import br.com.ctcea.gestaoinv.repositories.TangivelLocacaoRepository;
 import br.com.ctcea.gestaoinv.repositories.TangivelRepository;
 import br.com.ctcea.gestaoinv.repositories.UsuarioResponsavelRepository;
-import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
 
 @Service
 public class AtivoService {

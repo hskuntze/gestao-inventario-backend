@@ -11,8 +11,8 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
 
 import br.com.ctcea.gestaoinv.entities.Usuario;
+import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.UsuarioRepository;
-import br.com.ctcea.gestaoinv.services.exceptions.RecursoNaoEncontradoException;
 
 @Component
 public class LoginTokenEnhancer implements TokenEnhancer {

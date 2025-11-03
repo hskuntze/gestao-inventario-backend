@@ -37,9 +37,9 @@ INSERT INTO tb_fornecedor (nome) VALUES ('MYCERT SOLUCOES DIGITAIS LTDA - OS176/
 INSERT INTO tb_fornecedor (nome) VALUES ('MYCERT SOLUCOES DIGITAIS LTDA - OS063/23');
 INSERT INTO tb_fornecedor (nome) VALUES ('TARGETWARE INFORMÁTICA - OS120/22');
 
-INSERT INTO tb_area (nome, responsavel, substituto_responsavel) VALUES ('GTI', 'Armando Furlan', 'N/A');
-INSERT INTO tb_area (nome, responsavel, substituto_responsavel) VALUES ('GAP', 'Marcus Pires', 'N/A');
-INSERT INTO tb_area (nome, responsavel, substituto_responsavel) VALUES ('GPS', 'Edni Paranhos', 'Mauricio Abe');
+INSERT INTO tb_area (nome, responsavel, substituto_responsavel) VALUES ('GTI', 'ARMANDO FURLAN JUNIOR', null);
+INSERT INTO tb_area (nome, responsavel, substituto_responsavel) VALUES ('GAP', 'MARCUS VINICIUS MENDONCA PIRES', null);
+INSERT INTO tb_area (nome, responsavel, substituto_responsavel) VALUES ('GPS', 'EDNI DE CASTRO PARANHOS', 'MAURICIO ABE MACHADO');
 
 INSERT INTO tb_localizacao (nome, id_area) VALUES ('Vinculado ao perfil do usuário ', 1);
 INSERT INTO tb_localizacao (nome, id_area) VALUES ('Vinculado ao perfil do usuário ', 2);
