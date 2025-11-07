@@ -18,6 +18,8 @@ public class AtivoDTO {
     private UsuarioResponsavelDTO usuarioResponsavel; //Usuário que está utilizando este ativo
     private FornecedorDTO fornecedor;
     private LocalDate dataAquisicao;
+	private LocalDate dataDevolucaoPrevista;
+	private LocalDate dataDevolucaoRealizada;
     private String codigoSerie;
     private String observacoes;
     private String linkDocumento;
@@ -221,5 +223,21 @@ public class AtivoDTO {
 
 	public void setRazaoDesabilitado(String razaoDesabilitado) {
 		this.razaoDesabilitado = razaoDesabilitado;
+	}
+
+	public LocalDate getDataDevolucaoPrevista() {
+		return dataDevolucaoPrevista;
+	}
+
+	public void setDataDevolucaoPrevista(LocalDate dataDevolucaoPrevista) {
+		this.dataDevolucaoPrevista = dataDevolucaoPrevista;
+	}
+
+	public LocalDate getDataDevolucaoRealizada() {
+		return dataDevolucaoRealizada;
+	}
+
+	public void setDataDevolucaoRealizada(LocalDate dataDevolucaoRealizada) {
+		this.dataDevolucaoRealizada = dataDevolucaoRealizada;
 	}
 }

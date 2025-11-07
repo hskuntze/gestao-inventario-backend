@@ -140,6 +140,8 @@ public class TangivelLocacaoService {
 		entity.setCategoria(dto.getCategoria());
 		entity.setCodigoSerie(dto.getCodigoSerie());
 		entity.setDataAquisicao(dto.getDataAquisicao());
+		entity.setDataDevolucaoPrevista(dto.getDataDevolucaoPrevista());
+		entity.setDataDevolucaoRealizada(dto.getDataDevolucaoRealizada());
 		entity.setDescricao(dto.getDescricao());
 		entity.setEstadoConservacao(dto.getEstadoConservacao());
 		

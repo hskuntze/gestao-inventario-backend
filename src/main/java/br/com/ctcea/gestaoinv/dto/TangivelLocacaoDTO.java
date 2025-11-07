@@ -16,6 +16,8 @@ public class TangivelLocacaoDTO {
     private UsuarioResponsavelDTO usuarioResponsavel; //Usuário que está utilizando este ativo
     private FornecedorDTO fornecedor;
     private LocalDate dataAquisicao;
+	private LocalDate dataDevolucaoPrevista;
+	private LocalDate dataDevolucaoRealizada;
     private String codigoSerie;
     private String observacoes;
     private String linkDocumento;
@@ -44,6 +46,8 @@ public class TangivelLocacaoDTO {
     	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
     	this.desabilitado = obj.isDesabilitado();
     	this.razaoDesabilitado = obj.getRazaoDesabilitado();
+    	this.dataDevolucaoPrevista = obj.getDataDevolucaoPrevista();
+    	this.dataDevolucaoRealizada = obj.getDataDevolucaoRealizada();
     	
     	if(obj.getLocalizacao() != null) {
         	this.localizacao = new LocalizacaoDTO(obj.getLocalizacao());
@@ -120,6 +124,22 @@ public class TangivelLocacaoDTO {
 
 	public void setDataAquisicao(LocalDate dataAquisicao) {
 		this.dataAquisicao = dataAquisicao;
+	}
+	
+	public LocalDate getDataDevolucaoPrevista() {
+		return dataDevolucaoPrevista;
+	}
+
+	public void setDataDevolucaoPrevista(LocalDate dataDevolucaoPrevista) {
+		this.dataDevolucaoPrevista = dataDevolucaoPrevista;
+	}
+
+	public LocalDate getDataDevolucaoRealizada() {
+		return dataDevolucaoRealizada;
+	}
+
+	public void setDataDevolucaoRealizada(LocalDate dataDevolucaoRealizada) {
+		this.dataDevolucaoRealizada = dataDevolucaoRealizada;
 	}
 
 	public String getCodigoSerie() {

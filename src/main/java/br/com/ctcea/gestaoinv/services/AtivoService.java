@@ -112,6 +112,8 @@ public class AtivoService {
 			dto.setEstadoConservacao(((Tangivel) ativo).getEstadoConservacao());
 		} else if (ativo instanceof TangivelLocacao) {
 			dto.setEstadoConservacao(((TangivelLocacao) ativo).getEstadoConservacao());
+			dto.setDataDevolucaoPrevista(((TangivelLocacao) ativo).getDataDevolucaoPrevista());
+			dto.setDataDevolucaoRealizada(((TangivelLocacao) ativo).getDataDevolucaoRealizada());
 		}
 
 		return dto;
