@@ -1,6 +1,7 @@
 package br.com.ctcea.gestaoinv.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,8 +18,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 import br.com.ctcea.gestaoinv.enums.Categoria;
+import br.com.ctcea.gestaoinv.enums.TermoParceria;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -30,6 +34,7 @@ public abstract class Ativo {
     
 	private String idPatrimonial;
     private Categoria categoria;
+    private TermoParceria termoParceria;
     private String descricao;
     
     @ManyToOne(fetch = FetchType.EAGER)
@@ -48,6 +53,9 @@ public abstract class Ativo {
     @JoinColumn(name = "id_fornecedor")
     private Fornecedor fornecedor;
     
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_contrato")
+    private Contrato contrato;
     private LocalDate dataAquisicao;
     private String codigoSerie;
     private String observacoes;
@@ -58,6 +66,9 @@ public abstract class Ativo {
     private String razaoDesabilitado;
     
     private String qrCodeUrl;
+    
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     
     @Lob
     private byte[] qrCodeImage;
@@ -92,6 +103,14 @@ public abstract class Ativo {
 		this.categoria = categoria;
 	}
 
+	public TermoParceria getTermoParceria() {
+		return termoParceria;
+	}
+
+	public void setTermoParceria(TermoParceria termoParceria) {
+		this.termoParceria = termoParceria;
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}
@@ -124,12 +143,12 @@ public abstract class Ativo {
 		this.usuarioResponsavel = usuarioResponsavel;
 	}
 
-	public Fornecedor getFornecedor() {
-		return fornecedor;
+	public Contrato getContrato() {
+		return contrato;
 	}
 
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 	public LocalDate getDataAquisicao() {
@@ -172,6 +191,14 @@ public abstract class Ativo {
 		this.gerarIdPatrimonial = gerarIdPatrimonial;
 	}
 
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
+
 	public boolean isDesabilitado() {
 		return desabilitado;
 	}
@@ -207,6 +234,25 @@ public abstract class Ativo {
 	public List<Imagem> getImagens() {
 		return imagens;
 	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+	
+	@PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+    	updatedAt = LocalDateTime.now();
+    }
 
 	@Override
 	public int hashCode() {

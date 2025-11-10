@@ -19,12 +19,15 @@ import br.com.ctcea.gestaoinv.components.GeradorIDPatrimonial;
 import br.com.ctcea.gestaoinv.dto.TangivelLocacaoDTO;
 import br.com.ctcea.gestaoinv.entities.Area;
 import br.com.ctcea.gestaoinv.entities.Ativo;
+import br.com.ctcea.gestaoinv.entities.Contrato;
 import br.com.ctcea.gestaoinv.entities.Fornecedor;
 import br.com.ctcea.gestaoinv.entities.Localizacao;
 import br.com.ctcea.gestaoinv.entities.TangivelLocacao;
+import br.com.ctcea.gestaoinv.entities.Usuario;
 import br.com.ctcea.gestaoinv.entities.UsuarioResponsavel;
 import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.AreaRepository;
+import br.com.ctcea.gestaoinv.repositories.ContratoRepository;
 import br.com.ctcea.gestaoinv.repositories.FornecedorRepository;
 import br.com.ctcea.gestaoinv.repositories.LocalizacaoRepository;
 import br.com.ctcea.gestaoinv.repositories.TangivelLocacaoRepository;
@@ -52,6 +55,9 @@ public class TangivelLocacaoService {
 	private FornecedorRepository fornecedorRepository;
 	
 	@Autowired
+	private ContratoRepository contratoRepository;
+	
+	@Autowired
 	private UsuarioResponsavelRepository usuarioResponsavelRepository;
 	
 	@Autowired
@@ -62,6 +68,9 @@ public class TangivelLocacaoService {
 	
 	@Autowired
 	private HistoricoService historicoService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@Transactional(readOnly = true)
 	public TangivelLocacao getTangivelLocacaoObject(Long id) {
@@ -130,7 +139,18 @@ public class TangivelLocacaoService {
 		LOGGER.info("[LOG] - Ativo tangível de locação {} excluído.", id);
 	}
 	
+	private void setTermoParceria(TangivelLocacao entity, TangivelLocacaoDTO dto) {
+		Usuario usuario = usuarioService.getAuthenticatedUser();
+		if(usuario.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("PERFIL_ADMIN"))) {
+			entity.setTermoParceria(dto.getTermoParceria());
+		} else {
+			entity.setTermoParceria(usuario.getTermoParceria());
+		}
+	}
+	
 	private void dtoToEntity(TangivelLocacao entity, TangivelLocacaoDTO dto) {
+		setTermoParceria(entity, dto);
+		
 		Area a = areaRepository.getReferenceById(dto.getArea().getId());
 		entity.setArea(a);
 		
@@ -138,15 +158,23 @@ public class TangivelLocacaoService {
 		entity.setLocalizacao(l);
 		
 		entity.setCategoria(dto.getCategoria());
+		entity.setTermoParceria(dto.getTermoParceria());
 		entity.setCodigoSerie(dto.getCodigoSerie());
 		entity.setDataAquisicao(dto.getDataAquisicao());
 		entity.setDataDevolucaoPrevista(dto.getDataDevolucaoPrevista());
 		entity.setDataDevolucaoRealizada(dto.getDataDevolucaoRealizada());
 		entity.setDescricao(dto.getDescricao());
 		entity.setEstadoConservacao(dto.getEstadoConservacao());
-		
+
 		Fornecedor f = fornecedorRepository.getReferenceById(dto.getFornecedor().getId());
 		entity.setFornecedor(f);
+		
+		if(dto.getContrato().getId() != null) {
+			Contrato c = contratoRepository.getReferenceById(dto.getContrato().getId());
+			entity.setContrato(c);
+		} else {
+			entity.setContrato(null);
+		}
 		
 		entity.setIdPatrimonial(dto.getIdPatrimonial());
 		entity.setLinkDocumento(dto.getLinkDocumento());

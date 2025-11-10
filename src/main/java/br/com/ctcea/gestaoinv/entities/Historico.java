@@ -23,7 +23,7 @@ public class Historico {
 	
 	@Column(updatable = false)
 	private LocalDateTime createdAt;
-	private String operation;
+	private String operacao;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	private Ativo ativo;
@@ -49,13 +49,13 @@ public class Historico {
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-
-	public String getOperation() {
-		return operation;
+	
+	public String getOperacao() {
+		return operacao;
 	}
 
-	public void setOperation(String operation) {
-		this.operation = operation;
+	public void setOperacao(String operacao) {
+		this.operacao = operacao;
 	}
 
 	public Ativo getAtivo() {
@@ -130,7 +130,8 @@ public class Historico {
 
 	@Override
 	public String toString() {
-		return "Historico [id=" + id + ", createdAt=" + createdAt + ", operation=" + operation + ", ativo=" + ativo
+		return "Historico [id=" + id + ", createdAt=" + createdAt + ", operacao=" + operacao + ", ativo=" + ativo
+				+ ", area=" + area + ", localizacao=" + localizacao + ", usuarioResponsavel=" + usuarioResponsavel
 				+ ", userId=" + userId + ", userLogin=" + userLogin + "]";
 	}
 }

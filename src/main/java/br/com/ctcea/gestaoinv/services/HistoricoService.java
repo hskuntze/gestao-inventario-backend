@@ -44,7 +44,7 @@ public class HistoricoService {
 		Usuario usuario = usuarioService.getAuthenticatedUser();
 		
 		Historico historico = new Historico();
-		historico.setOperation(operation);
+		historico.setOperacao(operation);
 		historico.setAtivo(ativo);
 		historico.setUserId(Long.valueOf(usuario.getId()));
 		historico.setUserLogin(usuario.getLogin());

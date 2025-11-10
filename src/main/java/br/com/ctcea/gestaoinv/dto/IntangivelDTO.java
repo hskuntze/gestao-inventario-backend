@@ -4,16 +4,19 @@ import java.time.LocalDate;
 
 import br.com.ctcea.gestaoinv.entities.Intangivel;
 import br.com.ctcea.gestaoinv.enums.Categoria;
+import br.com.ctcea.gestaoinv.enums.TermoParceria;
 
 public class IntangivelDTO {
 	
 	private Long id;
 	private String idPatrimonial;
     private Categoria categoria;
+    private TermoParceria termoParceria;
     private String descricao;
     private AreaSimpleDTO area;
     private LocalizacaoDTO localizacao;
     private UsuarioResponsavelDTO usuarioResponsavel; //Usuário que está utilizando este ativo
+    private ContratoDTO contrato;
     private FornecedorDTO fornecedor;
     private LocalDate dataAquisicao;
     private String codigoSerie;
@@ -31,10 +34,18 @@ public class IntangivelDTO {
     	this.id = obj.getId();
     	this.idPatrimonial = obj.getIdPatrimonial();
     	this.categoria = obj.getCategoria();
+    	this.termoParceria = obj.getTermoParceria();
     	this.descricao = obj.getDescricao();
     	this.area = new AreaSimpleDTO(obj.getArea());
     	this.usuarioResponsavel = new UsuarioResponsavelDTO(obj.getUsuarioResponsavel());
     	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
+    	
+    	if(obj.getContrato() != null) {
+        	this.contrato = new ContratoDTO(obj.getContrato());
+    	} else {
+    		this.contrato = null;
+    	}
+    	
     	this.dataAquisicao = obj.getDataAquisicao();
     	this.codigoSerie = obj.getCodigoSerie();
     	this.observacoes = obj.getObservacoes();
@@ -72,6 +83,14 @@ public class IntangivelDTO {
 		this.categoria = categoria;
 	}
 
+	public TermoParceria getTermoParceria() {
+		return termoParceria;
+	}
+
+	public void setTermoParceria(TermoParceria termoParceria) {
+		this.termoParceria = termoParceria;
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}
@@ -102,6 +121,14 @@ public class IntangivelDTO {
 
 	public void setUsuarioResponsavel(UsuarioResponsavelDTO usuarioResponsavel) {
 		this.usuarioResponsavel = usuarioResponsavel;
+	}
+
+	public ContratoDTO getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(ContratoDTO contrato) {
+		this.contrato = contrato;
 	}
 
 	public FornecedorDTO getFornecedor() {

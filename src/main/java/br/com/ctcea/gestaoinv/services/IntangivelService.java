@@ -19,12 +19,15 @@ import br.com.ctcea.gestaoinv.components.GeradorIDPatrimonial;
 import br.com.ctcea.gestaoinv.dto.IntangivelDTO;
 import br.com.ctcea.gestaoinv.entities.Area;
 import br.com.ctcea.gestaoinv.entities.Ativo;
+import br.com.ctcea.gestaoinv.entities.Contrato;
 import br.com.ctcea.gestaoinv.entities.Fornecedor;
 import br.com.ctcea.gestaoinv.entities.Intangivel;
 import br.com.ctcea.gestaoinv.entities.Localizacao;
+import br.com.ctcea.gestaoinv.entities.Usuario;
 import br.com.ctcea.gestaoinv.entities.UsuarioResponsavel;
 import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.AreaRepository;
+import br.com.ctcea.gestaoinv.repositories.ContratoRepository;
 import br.com.ctcea.gestaoinv.repositories.FornecedorRepository;
 import br.com.ctcea.gestaoinv.repositories.IntangivelRepository;
 import br.com.ctcea.gestaoinv.repositories.LocalizacaoRepository;
@@ -49,6 +52,9 @@ public class IntangivelService {
 	private LocalizacaoRepository localizacaoRepository;
 	
 	@Autowired
+	private ContratoRepository contratoRepository;
+	
+	@Autowired
 	private FornecedorRepository fornecedorRepository;
 
 	@Autowired
@@ -62,6 +68,9 @@ public class IntangivelService {
 
 	@Autowired
 	private HistoricoService historicoService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@Transactional(readOnly = true)
 	public Intangivel getIntangivelObject(Long id) {
@@ -81,7 +90,7 @@ public class IntangivelService {
 		dtoToEntity(newRegister, dto);
 		gerarIdPatrimonial(dto, newRegister);
 		gerarQRCode(newRegister);
-
+		
 		historicoService.recordOperation("REGISTRO", newRegister);
 
 		if (newRegister.getUsuarioResponsavel().getId() != null
@@ -130,8 +139,19 @@ public class IntangivelService {
 		intangivelRepository.deleteById(id);
 		LOGGER.info("[LOG] - Ativo intangível {} excluído.", id);
 	}
+	
+	private void setTermoParceria(Intangivel entity, IntangivelDTO dto) {
+		Usuario usuario = usuarioService.getAuthenticatedUser();
+		if(usuario.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("PERFIL_ADMIN"))) {
+			entity.setTermoParceria(dto.getTermoParceria());
+		} else {
+			entity.setTermoParceria(usuario.getTermoParceria());
+		}
+	}
 
 	private void dtoToEntity(Intangivel entity, IntangivelDTO dto) {
+		setTermoParceria(entity, dto);
+		
 		Area a = areaRepository.getReferenceById(dto.getArea().getId());
 		entity.setArea(a);
 		
@@ -142,10 +162,17 @@ public class IntangivelService {
 		entity.setCodigoSerie(dto.getCodigoSerie());
 		entity.setDataAquisicao(dto.getDataAquisicao());
 		entity.setDescricao(dto.getDescricao());
-
+		
 		Fornecedor f = fornecedorRepository.getReferenceById(dto.getFornecedor().getId());
 		entity.setFornecedor(f);
 
+		if(dto.getContrato().getId() != null) {
+			Contrato c = contratoRepository.getReferenceById(dto.getContrato().getId());
+			entity.setContrato(c);
+		} else {
+			entity.setContrato(null);
+		}
+		
 		entity.setIdPatrimonial(dto.getIdPatrimonial());
 		entity.setLinkDocumento(dto.getLinkDocumento());
 

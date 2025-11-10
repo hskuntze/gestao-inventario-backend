@@ -19,12 +19,15 @@ import br.com.ctcea.gestaoinv.components.GeradorIDPatrimonial;
 import br.com.ctcea.gestaoinv.dto.TangivelDTO;
 import br.com.ctcea.gestaoinv.entities.Area;
 import br.com.ctcea.gestaoinv.entities.Ativo;
+import br.com.ctcea.gestaoinv.entities.Contrato;
 import br.com.ctcea.gestaoinv.entities.Fornecedor;
 import br.com.ctcea.gestaoinv.entities.Localizacao;
 import br.com.ctcea.gestaoinv.entities.Tangivel;
+import br.com.ctcea.gestaoinv.entities.Usuario;
 import br.com.ctcea.gestaoinv.entities.UsuarioResponsavel;
 import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.AreaRepository;
+import br.com.ctcea.gestaoinv.repositories.ContratoRepository;
 import br.com.ctcea.gestaoinv.repositories.FornecedorRepository;
 import br.com.ctcea.gestaoinv.repositories.LocalizacaoRepository;
 import br.com.ctcea.gestaoinv.repositories.TangivelRepository;
@@ -50,6 +53,9 @@ public class TangivelService {
 
 	@Autowired
 	private FornecedorRepository fornecedorRepository;
+	
+	@Autowired
+	private ContratoRepository contratoRepository;
 
 	@Autowired
 	private UsuarioResponsavelRepository usuarioResponsavelRepository;
@@ -62,6 +68,9 @@ public class TangivelService {
 
 	@Autowired
 	private HistoricoService historicoService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@Transactional(readOnly = true)
 	public Tangivel getTangivelObject(Long id) {
@@ -137,8 +146,19 @@ public class TangivelService {
 		tangivelRepository.deleteById(id);
 		LOGGER.info("[LOG] - Ativo tangível {} excluído.", id);
 	}
+	
+	private void setTermoParceria(Tangivel entity, TangivelDTO dto) {
+		Usuario usuario = usuarioService.getAuthenticatedUser();
+		if(usuario.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("PERFIL_ADMIN"))) {
+			entity.setTermoParceria(dto.getTermoParceria());
+		} else {
+			entity.setTermoParceria(usuario.getTermoParceria());
+		}
+	}
 
 	private void dtoToEntity(Tangivel entity, TangivelDTO dto) {
+		setTermoParceria(entity, dto);
+		
 		Area a = areaRepository.getReferenceById(dto.getArea().getId());
 		entity.setArea(a);
 		
@@ -146,6 +166,7 @@ public class TangivelService {
 		entity.setLocalizacao(l);
 		
 		entity.setCategoria(dto.getCategoria());
+		entity.setTermoParceria(dto.getTermoParceria());
 		entity.setCodigoSerie(dto.getCodigoSerie());
 		entity.setDataAquisicao(dto.getDataAquisicao());
 		entity.setDescricao(dto.getDescricao());
@@ -153,6 +174,13 @@ public class TangivelService {
 
 		Fornecedor f = fornecedorRepository.getReferenceById(dto.getFornecedor().getId());
 		entity.setFornecedor(f);
+		
+		if(dto.getContrato().getId() != null) {
+			Contrato c = contratoRepository.getReferenceById(dto.getContrato().getId());
+			entity.setContrato(c);
+		} else {
+			entity.setContrato(null);
+		}
 
 		entity.setIdPatrimonial(dto.getIdPatrimonial());
 		entity.setLinkDocumento(dto.getLinkDocumento());
