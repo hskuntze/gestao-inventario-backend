@@ -6,28 +6,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.ctcea.gestaoinv.components.TenantFilterInterceptor;
 import br.com.ctcea.gestaoinv.entities.Notificacao;
 import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.NotificacaoRepository;
 
 @Service
 public class NotificacaoService {
+	
+	@Autowired
+	private TenantFilterInterceptor filterInterceptor;
 
 	@Autowired
 	private NotificacaoRepository notificacaoRepository;
 	
 	@Transactional(readOnly = true)
 	public List<Notificacao> getAll() {
+		filterInterceptor.applyFilter();
 		return notificacaoRepository.findAll();
 	}
 	
 	@Transactional(readOnly = true)
 	public Notificacao getObjectByAtivoId(Long idAtivo) {
+		filterInterceptor.applyFilter();
 		return notificacaoRepository.getByAtivoId(idAtivo).orElseThrow(() -> new RecursoNaoEncontradoException("Não foi possível localizar uma notificação com ID " + idAtivo));
 	}
 	
 	@Transactional(readOnly = true)
 	public Notificacao getObjectById(Long id) {
+		filterInterceptor.applyFilter();
 		return notificacaoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Não foi possível localizar uma notificação com ID " + id));
 	}
 	

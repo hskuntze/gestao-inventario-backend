@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,9 +24,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+
 import br.com.ctcea.gestaoinv.enums.Categoria;
 import br.com.ctcea.gestaoinv.enums.TermoParceria;
 
+@FilterDef(name = "filialFilter", parameters = @ParamDef(name = "termoParceria", type = "string"))
+@Filter(name = "filialFilter", condition = "termo_parceria = :termoParceria")
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Ativo {
@@ -34,6 +43,9 @@ public abstract class Ativo {
     
 	private String idPatrimonial;
     private Categoria categoria;
+    
+    @Column(name = "termo_parceria")
+    @Enumerated(EnumType.STRING)
     private TermoParceria termoParceria;
     private String descricao;
     

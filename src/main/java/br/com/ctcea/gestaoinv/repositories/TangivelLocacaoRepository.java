@@ -12,7 +12,7 @@ import br.com.ctcea.gestaoinv.entities.TangivelLocacao;
 @Repository
 public interface TangivelLocacaoRepository extends JpaRepository<TangivelLocacao, Long>{
 
-	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS quantidade FROM tb_ativo_tangivel_locacao")
+	@Query("SELECT COUNT(tl) FROM TangivelLocacao tl")
 	Integer getCount();
 
 	boolean existsByIdPatrimonial(String idGerado);

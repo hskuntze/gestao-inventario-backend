@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+
+import br.com.ctcea.gestaoinv.enums.TermoParceria;
+
+@FilterDef(name = "filialFilter", parameters = @ParamDef(name = "termoParceria", type = "string"))
+@Filter(name = "filialFilter", condition = "termo_parceria = :termoParceria")
 @Entity
 @Table(name = "tb_historico_ativo")
 public class Historico {
@@ -34,6 +44,10 @@ public class Historico {
 	
 	private Long userId;
 	private String userLogin;
+	
+	@Column(name = "termo_parceria")
+    @Enumerated(EnumType.STRING)
+    private TermoParceria termoParceria;
 	
 	public Historico() {
 	}
@@ -104,6 +118,14 @@ public class Historico {
 
 	public void setUserLogin(String userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public TermoParceria getTermoParceria() {
+		return termoParceria;
+	}
+
+	public void setTermoParceria(TermoParceria termoParceria) {
+		this.termoParceria = termoParceria;
 	}
 
 	@PrePersist

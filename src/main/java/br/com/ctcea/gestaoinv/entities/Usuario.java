@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,6 +40,8 @@ public class Usuario implements Serializable, UserDetails {
 	private String userUuid;
 	private Integer userState;
 	private Integer firstAccess;
+	
+	@Enumerated(EnumType.STRING)
 	private TermoParceria termoParceria;
 	
 	@ManyToMany(fetch = FetchType.EAGER)

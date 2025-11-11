@@ -49,7 +49,8 @@ public class VerificarLocacaoTask {
 							"LOCACAO",
 							"Locação expira em 30 dias ou menos",
 							"O ativo de código de série " + atl.getCodigoSerie() + " deve ser devolvido em 30 dias ou menos.",
-							TipoNotificacao.ALERTA);
+							TipoNotificacao.ALERTA,
+							atl.getTermoParceria());
 					notificacaoRepository.save(n);
 				}
 			}
@@ -75,7 +76,8 @@ public class VerificarLocacaoTask {
 							"LOCACAO", 
 							"Ativo com data de devolução expirada", 
 							"O ativo de código de série " + atl.getCodigoSerie() + " está com a data de devolução expirada.", 
-							TipoNotificacao.EXPIRADO);
+							TipoNotificacao.EXPIRADO,
+							atl.getTermoParceria());
 					notificacaoRepository.save(n);
 				}
 			}
