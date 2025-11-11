@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.ctcea.gestaoinv.components.TenantFilterInterceptor;
 import br.com.ctcea.gestaoinv.dto.AtivoDTO;
 import br.com.ctcea.gestaoinv.dto.MovimentacaoAtivoDTO;
 import br.com.ctcea.gestaoinv.dto.QuantidadeAtivoDTO;
@@ -31,6 +32,9 @@ import br.com.ctcea.gestaoinv.repositories.UsuarioResponsavelRepository;
 public class AtivoService {
 	
 	@Autowired
+	private TenantFilterInterceptor filterInterceptor;
+	
+	@Autowired
 	private HistoricoService historicoService;
 
 	@Autowired
@@ -50,9 +54,11 @@ public class AtivoService {
 	
 	@Autowired
 	private UsuarioResponsavelRepository usuarioResponsavelRepository;
-
+	
 	@Transactional(readOnly = true)
 	public QuantidadeAtivoDTO getQtdAtivos() {
+		filterInterceptor.applyFilter();
+		
 		Integer qtdT = tangivelRepository.getCount();
 		Integer qtdI = intangivelRepository.getCount();
 		Integer qtdTL = tangivelLocacaoRepository.getCount();
@@ -62,6 +68,8 @@ public class AtivoService {
 
 	@Transactional(readOnly = true)
 	public List<AtivoDTO> getAll() {
+		filterInterceptor.applyFilter();
+		
 		List<Tangivel> tangiveis = tangivelRepository.findAll();
 		List<Intangivel> intangiveis = intangivelRepository.findAll();
 		List<TangivelLocacao> tangiveisLoc = tangivelLocacaoRepository.findAll();
@@ -91,6 +99,8 @@ public class AtivoService {
 
 	@Transactional(readOnly = true)
 	public AtivoDTO getAtivoById(Long id) {
+		filterInterceptor.applyFilter();
+		
 		Optional<? extends Ativo> obj = tangivelRepository.findById(id);
 		String tipoAtivo = "t";
 
@@ -112,6 +122,8 @@ public class AtivoService {
 			dto.setEstadoConservacao(((Tangivel) ativo).getEstadoConservacao());
 		} else if (ativo instanceof TangivelLocacao) {
 			dto.setEstadoConservacao(((TangivelLocacao) ativo).getEstadoConservacao());
+			dto.setDataDevolucaoPrevista(((TangivelLocacao) ativo).getDataDevolucaoPrevista());
+			dto.setDataDevolucaoRealizada(((TangivelLocacao) ativo).getDataDevolucaoRealizada());
 		}
 
 		return dto;
@@ -119,6 +131,8 @@ public class AtivoService {
 	
 	@Transactional(readOnly = true)
 	public Ativo getObjectById(Long id) {
+		filterInterceptor.applyFilter();
+		
 		Optional<? extends Ativo> obj = tangivelRepository.findById(id);
 
 		if (!obj.isPresent()) {

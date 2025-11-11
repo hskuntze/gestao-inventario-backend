@@ -74,7 +74,7 @@ public class Fornecedor {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(cnpj, id, nome);
 	}
 
 	@Override
@@ -86,6 +86,6 @@ public class Fornecedor {
 		if (getClass() != obj.getClass())
 			return false;
 		Fornecedor other = (Fornecedor) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(cnpj, other.cnpj) && Objects.equals(id, other.id) && Objects.equals(nome, other.nome);
 	}
 }

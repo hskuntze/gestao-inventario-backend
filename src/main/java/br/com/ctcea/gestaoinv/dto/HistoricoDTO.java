@@ -8,7 +8,7 @@ public class HistoricoDTO {
 
 	private Long id;
 	private LocalDateTime createdAt;
-	private String operation;
+	private String operacao;
 	private String area;
 	private String localizacao;
 	private String usuarioResponsavel;
@@ -22,7 +22,7 @@ public class HistoricoDTO {
 	public HistoricoDTO(Historico obj) {
 		this.id = obj.getId();
 		this.createdAt = obj.getCreatedAt();
-		this.operation = obj.getOperation();
+		this.operacao = obj.getOperacao();
 		this.userId = obj.getUserId();
 		this.userLogin = obj.getUserLogin();
 		this.area = obj.getArea();
@@ -48,12 +48,12 @@ public class HistoricoDTO {
 		this.createdAt = createdAt;
 	}
 
-	public String getOperation() {
-		return operation;
+	public String getOperacao() {
+		return operacao;
 	}
 
-	public void setOperation(String operation) {
-		this.operation = operation;
+	public void setOperacao(String operacao) {
+		this.operacao = operacao;
 	}
 
 	public AtivoDTO getAtivo() {

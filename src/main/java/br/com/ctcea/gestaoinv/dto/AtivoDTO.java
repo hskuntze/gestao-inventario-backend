@@ -7,17 +7,22 @@ import java.util.List;
 import br.com.ctcea.gestaoinv.entities.Ativo;
 import br.com.ctcea.gestaoinv.entities.Imagem;
 import br.com.ctcea.gestaoinv.enums.Categoria;
+import br.com.ctcea.gestaoinv.enums.TermoParceria;
 
 public class AtivoDTO {
 	private Long id;
 	private String idPatrimonial;
     private Categoria categoria;
+    private TermoParceria termoParceria;
     private String descricao;
     private AreaSimpleDTO area;
     private LocalizacaoDTO localizacao;
     private UsuarioResponsavelDTO usuarioResponsavel; //Usuário que está utilizando este ativo
     private FornecedorDTO fornecedor;
+    private ContratoDTO contrato;
     private LocalDate dataAquisicao;
+	private LocalDate dataDevolucaoPrevista;
+	private LocalDate dataDevolucaoRealizada;
     private String codigoSerie;
     private String observacoes;
     private String linkDocumento;
@@ -38,10 +43,16 @@ public class AtivoDTO {
     	this.id = obj.getId();
     	this.idPatrimonial = obj.getIdPatrimonial();
     	this.categoria = obj.getCategoria();
+    	this.termoParceria = obj.getTermoParceria();
     	this.descricao = obj.getDescricao();
     	this.area = new AreaSimpleDTO(obj.getArea());
     	this.usuarioResponsavel = new UsuarioResponsavelDTO(obj.getUsuarioResponsavel());
     	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
+    	
+    	if(obj.getContrato() != null) {
+        	this.contrato = new ContratoDTO(obj.getContrato());
+    	}
+    	
     	this.dataAquisicao = obj.getDataAquisicao();
     	this.codigoSerie = obj.getCodigoSerie();
     	this.observacoes = obj.getObservacoes();
@@ -87,6 +98,14 @@ public class AtivoDTO {
 		this.categoria = categoria;
 	}
 
+	public TermoParceria getTermoParceria() {
+		return termoParceria;
+	}
+
+	public void setTermoParceria(TermoParceria termoParceria) {
+		this.termoParceria = termoParceria;
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}
@@ -101,6 +120,14 @@ public class AtivoDTO {
 
 	public void setArea(AreaSimpleDTO area) {
 		this.area = area;
+	}
+
+	public FornecedorDTO getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(FornecedorDTO fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 
 	public LocalizacaoDTO getLocalizacao() {
@@ -119,12 +146,12 @@ public class AtivoDTO {
 		this.usuarioResponsavel = usuarioResponsavel;
 	}
 
-	public FornecedorDTO getFornecedor() {
-		return fornecedor;
+	public ContratoDTO getContrato() {
+		return contrato;
 	}
 
-	public void setFornecedor(FornecedorDTO fornecedor) {
-		this.fornecedor = fornecedor;
+	public void setContrato(ContratoDTO contrato) {
+		this.contrato = contrato;
 	}
 
 	public LocalDate getDataAquisicao() {
@@ -221,5 +248,21 @@ public class AtivoDTO {
 
 	public void setRazaoDesabilitado(String razaoDesabilitado) {
 		this.razaoDesabilitado = razaoDesabilitado;
+	}
+
+	public LocalDate getDataDevolucaoPrevista() {
+		return dataDevolucaoPrevista;
+	}
+
+	public void setDataDevolucaoPrevista(LocalDate dataDevolucaoPrevista) {
+		this.dataDevolucaoPrevista = dataDevolucaoPrevista;
+	}
+
+	public LocalDate getDataDevolucaoRealizada() {
+		return dataDevolucaoRealizada;
+	}
+
+	public void setDataDevolucaoRealizada(LocalDate dataDevolucaoRealizada) {
+		this.dataDevolucaoRealizada = dataDevolucaoRealizada;
 	}
 }

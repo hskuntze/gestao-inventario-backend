@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.ctcea.gestaoinv.dto.AtivoDTO;
 import br.com.ctcea.gestaoinv.dto.HistoricoDTO;
 import br.com.ctcea.gestaoinv.services.HistoricoService;
 
@@ -22,6 +23,11 @@ public class HistoricoController {
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<HistoricoDTO>> getAllDto() {
 		return ResponseEntity.ok().body(historicoService.getAllDto());
+	}
+	
+	@GetMapping(value = "/recentes")
+	public ResponseEntity<List<AtivoDTO>> getAtivosRecentes() {
+		return ResponseEntity.ok().body(historicoService.getAtivosRecentes());
 	}
 	
 	@GetMapping(value = "/ativo/{id}")

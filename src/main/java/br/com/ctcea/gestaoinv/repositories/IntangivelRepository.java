@@ -9,7 +9,7 @@ import br.com.ctcea.gestaoinv.entities.Intangivel;
 @Repository
 public interface IntangivelRepository extends JpaRepository<Intangivel, Long>{
 
-	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS quantidade FROM tb_ativo_intangivel")
+	@Query("SELECT COUNT(i) FROM Intangivel i")
 	Integer getCount();
 
 	boolean existsByIdPatrimonial(String idGerado);
