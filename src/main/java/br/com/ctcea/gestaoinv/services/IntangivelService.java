@@ -174,7 +174,6 @@ public class IntangivelService {
 		}
 		
 		entity.setIdPatrimonial(dto.getIdPatrimonial());
-		entity.setLinkDocumento(dto.getLinkDocumento());
 
 		entity.setObservacoes(dto.getObservacoes());
 

@@ -177,7 +177,6 @@ public class TangivelLocacaoService {
 		}
 		
 		entity.setIdPatrimonial(dto.getIdPatrimonial());
-		entity.setLinkDocumento(dto.getLinkDocumento());
 		
 		entity.setObservacoes(dto.getObservacoes());
 		

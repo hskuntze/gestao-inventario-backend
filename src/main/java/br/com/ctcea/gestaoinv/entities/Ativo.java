@@ -71,7 +71,6 @@ public abstract class Ativo {
     private LocalDate dataAquisicao;
     private String codigoSerie;
     private String observacoes;
-    private String linkDocumento;
     
     private boolean gerarIdPatrimonial;
     private boolean desabilitado;
@@ -185,14 +184,6 @@ public abstract class Ativo {
 
 	public void setObservacoes(String observacoes) {
 		this.observacoes = observacoes;
-	}
-
-	public String getLinkDocumento() {
-		return linkDocumento;
-	}
-
-	public void setLinkDocumento(String linkDocumento) {
-		this.linkDocumento = linkDocumento;
 	}
 
 	public boolean getGerarIdPatrimonial() {

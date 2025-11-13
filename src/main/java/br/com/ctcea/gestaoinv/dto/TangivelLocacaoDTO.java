@@ -23,7 +23,6 @@ public class TangivelLocacaoDTO {
 	private LocalDate dataDevolucaoRealizada;
     private String codigoSerie;
     private String observacoes;
-    private String linkDocumento;
     private String estadoConservacao;
     
 	private boolean gerarIdPatrimonial;
@@ -52,7 +51,6 @@ public class TangivelLocacaoDTO {
     	this.dataAquisicao = obj.getDataAquisicao();
     	this.codigoSerie = obj.getCodigoSerie();
     	this.observacoes = obj.getObservacoes();
-    	this.linkDocumento = obj.getLinkDocumento();
     	this.estadoConservacao = obj.getEstadoConservacao();
     	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
     	this.desabilitado = obj.isDesabilitado();
@@ -183,14 +181,6 @@ public class TangivelLocacaoDTO {
 
 	public void setObservacoes(String observacoes) {
 		this.observacoes = observacoes;
-	}
-
-	public String getLinkDocumento() {
-		return linkDocumento;
-	}
-
-	public void setLinkDocumento(String linkDocumento) {
-		this.linkDocumento = linkDocumento;
 	}
 
 	public String getEstadoConservacao() {

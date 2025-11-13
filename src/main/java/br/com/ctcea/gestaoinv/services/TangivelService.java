@@ -175,7 +175,7 @@ public class TangivelService {
 		Fornecedor f = fornecedorRepository.getReferenceById(dto.getFornecedor().getId());
 		entity.setFornecedor(f);
 		
-		if(dto.getContrato().getId() != null) {
+		if(dto.getContrato() != null && dto.getContrato().getId() != null) {
 			Contrato c = contratoRepository.getReferenceById(dto.getContrato().getId());
 			entity.setContrato(c);
 		} else {
@@ -183,7 +183,6 @@ public class TangivelService {
 		}
 
 		entity.setIdPatrimonial(dto.getIdPatrimonial());
-		entity.setLinkDocumento(dto.getLinkDocumento());
 
 		entity.setObservacoes(dto.getObservacoes());
 

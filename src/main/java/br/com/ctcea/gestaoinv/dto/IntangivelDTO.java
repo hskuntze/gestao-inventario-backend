@@ -21,7 +21,6 @@ public class IntangivelDTO {
     private LocalDate dataAquisicao;
     private String codigoSerie;
     private String observacoes;
-    private String linkDocumento;
 
 	private boolean gerarIdPatrimonial;
     private boolean desabilitado;
@@ -49,7 +48,6 @@ public class IntangivelDTO {
     	this.dataAquisicao = obj.getDataAquisicao();
     	this.codigoSerie = obj.getCodigoSerie();
     	this.observacoes = obj.getObservacoes();
-    	this.linkDocumento = obj.getLinkDocumento();
     	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
     	this.desabilitado = obj.isDesabilitado();
     	this.razaoDesabilitado = obj.getRazaoDesabilitado();
@@ -161,14 +159,6 @@ public class IntangivelDTO {
 
 	public void setObservacoes(String observacoes) {
 		this.observacoes = observacoes;
-	}
-
-	public String getLinkDocumento() {
-		return linkDocumento;
-	}
-
-	public void setLinkDocumento(String linkDocumento) {
-		this.linkDocumento = linkDocumento;
 	}
 
 	public boolean getGerarIdPatrimonial() {
