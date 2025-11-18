@@ -29,7 +29,7 @@ public class VerificarLocacaoTask {
 	
 	private static final ZoneId ZONE = ZoneId.of("America/Sao_Paulo");
 	
-	@Scheduled(cron = "0 * * * * *", zone = "America/Sao_Paulo")
+	@Scheduled(cron = "0 0 1 * * *", zone = "America/Sao_Paulo")
 	public void verificarLocacoesPertoExpirar() {
 		LOGGER.info("[TASK ATL] - Verificando se existem ativos de locação com data de devolução perto de expirar.");
 		
@@ -57,7 +57,7 @@ public class VerificarLocacaoTask {
 		}
 	}
 	
-	@Scheduled(cron = "0 * * * * *", zone = "America/Sao_Paulo")
+	@Scheduled(cron = "0 0 1 * * *", zone = "America/Sao_Paulo")
 	public void verificarLocacoesNaoDevolvidas() {
 		LOGGER.info("[TASK ATL] - Verificando se existem ativos de locação com data de devolução expirados.");
 		

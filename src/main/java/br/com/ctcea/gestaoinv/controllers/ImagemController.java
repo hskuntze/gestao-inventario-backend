@@ -1,9 +1,12 @@
 package br.com.ctcea.gestaoinv.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +42,19 @@ public class ImagemController {
 			@RequestParam MultipartFile file) {
 		imagemService.uploadImagem(tipoAtivo, idAtivo, file);
 		return ResponseEntity.ok().body("Sucesso");
+	}
+	
+	@PostMapping(value = "/upload-multiplo")
+	public ResponseEntity<String> uploadMultiplosArquivos(@RequestParam TipoAtivo tipoAtivo, @RequestParam Long idAtivo,
+			@RequestParam List<MultipartFile> files) {
+		imagemService.uploadMultiplosArquivos(tipoAtivo, idAtivo, files);
+		return ResponseEntity.ok().body("Sucesso");
+	}
+	
+	@DeleteMapping(value = "/delete/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		imagemService.deleteImagem(id);
+		return ResponseEntity.noContent().build();
 	}
 
 	private MediaType detectarMediaType(String nomeArquivo) {

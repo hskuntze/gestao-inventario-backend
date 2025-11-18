@@ -1,13 +1,13 @@
 package br.com.ctcea.gestaoinv.enums;
 
 public enum Categoria {
-	ACESSORIO("Acessório"),
-	ELETRONICO("Eletrônico"),
+	ACESSORIO("Acessórios"),
+	ELETRONICO("Eletrônicos"),
 	EPI("EPI"),
 	INFORMATICA("Informática"),
 	MOBILIARIO("Mobiliário"),
-	CERTIFICADO("Certificado"),
-	SOFTWARE("Software");
+	CERTIFICADO("Certificados"),
+	SOFTWARE("Softwares");
 	
 	private final String tipo;
 	
@@ -17,6 +17,18 @@ public enum Categoria {
 
 	public String getTipo() {
 		return tipo;
+	}
+	
+	public static Categoria fromTipo(String tipo) {
+	    if (tipo == null) return null;
+
+	    for (Categoria c : Categoria.values()) {
+	        if (c.getTipo().equalsIgnoreCase(tipo.trim())) {
+	            return c;
+	        }
+	    }
+
+	    throw new IllegalArgumentException("Categoria inválida: " + tipo);
 	}
 	
 	@Override

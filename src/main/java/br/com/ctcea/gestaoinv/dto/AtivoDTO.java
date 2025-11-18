@@ -3,6 +3,7 @@ package br.com.ctcea.gestaoinv.dto;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.com.ctcea.gestaoinv.entities.Ativo;
 import br.com.ctcea.gestaoinv.entities.Imagem;
@@ -25,7 +26,6 @@ public class AtivoDTO {
 	private LocalDate dataDevolucaoRealizada;
     private String codigoSerie;
     private String observacoes;
-    private String linkDocumento;
 	private String estadoConservacao;
 	private String qrCodeUrl;
 	private byte[] qrCodeImage;
@@ -34,6 +34,8 @@ public class AtivoDTO {
 	
 	private boolean gerarIdPatrimonial;
     private boolean desabilitado;
+    private boolean descartado;
+    private boolean devolvido;
     private String razaoDesabilitado;
 	
 	public AtivoDTO() {
@@ -45,9 +47,20 @@ public class AtivoDTO {
     	this.categoria = obj.getCategoria();
     	this.termoParceria = obj.getTermoParceria();
     	this.descricao = obj.getDescricao();
-    	this.area = new AreaSimpleDTO(obj.getArea());
+    	
+    	if(obj.getArea() != null) {
+        	this.area = new AreaSimpleDTO(obj.getArea());
+    	} else {
+    		this.area =  null;
+    	}
+    	
+    	if(obj.getFornecedor() != null) {
+        	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
+    	} else {
+    		this.fornecedor = null;
+    	}
+    	
     	this.usuarioResponsavel = new UsuarioResponsavelDTO(obj.getUsuarioResponsavel());
-    	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
     	
     	if(obj.getContrato() != null) {
         	this.contrato = new ContratoDTO(obj.getContrato());
@@ -56,22 +69,22 @@ public class AtivoDTO {
     	this.dataAquisicao = obj.getDataAquisicao();
     	this.codigoSerie = obj.getCodigoSerie();
     	this.observacoes = obj.getObservacoes();
-    	this.linkDocumento = obj.getLinkDocumento();
     	this.qrCodeImage = obj.getQrCodeImage();
     	this.qrCodeUrl = obj.getQrCodeUrl();
     	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
     	this.desabilitado = obj.isDesabilitado();
+    	this.descartado = obj.isDescartado();
+    	this.devolvido = obj.isDevolvido();
     	this.razaoDesabilitado = obj.getRazaoDesabilitado();
     	
     	if(obj.getLocalizacao() != null) {
     		this.localizacao = new LocalizacaoDTO(obj.getLocalizacao());
     	}
     	
-    	this.imagens.clear();
-    	
-    	for(Imagem i : obj.getImagens()) {
-    		this.imagens.add(i);
-    	}
+    	this.imagens = obj.getImagens()
+    		    .stream()
+    		    .distinct()
+    		    .collect(Collectors.toList());
     }
 
 	public Long getId() {
@@ -178,14 +191,6 @@ public class AtivoDTO {
 		this.observacoes = observacoes;
 	}
 
-	public String getLinkDocumento() {
-		return linkDocumento;
-	}
-
-	public void setLinkDocumento(String linkDocumento) {
-		this.linkDocumento = linkDocumento;
-	}
-
 	public String getEstadoConservacao() {
 		return estadoConservacao;
 	}
@@ -240,6 +245,22 @@ public class AtivoDTO {
 
 	public void setDesabilitado(boolean desabilitado) {
 		this.desabilitado = desabilitado;
+	}
+
+	public boolean isDescartado() {
+		return descartado;
+	}
+
+	public void setDescartado(boolean descartado) {
+		this.descartado = descartado;
+	}
+
+	public boolean isDevolvido() {
+		return devolvido;
+	}
+
+	public void setDevolvido(boolean devolvido) {
+		this.devolvido = devolvido;
 	}
 
 	public String getRazaoDesabilitado() {

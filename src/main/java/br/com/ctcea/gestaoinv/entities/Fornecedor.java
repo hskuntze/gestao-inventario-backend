@@ -1,11 +1,15 @@
 package br.com.ctcea.gestaoinv.entities;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +24,9 @@ public class Fornecedor {
 	private String contatoNome;
 	private String contatoTelefone;
 	private String cnpj;
+	
+	@OneToMany(mappedBy = "fornecedor", cascade = CascadeType.ALL, orphanRemoval = false)
+	private Set<Contrato> contratos = new HashSet<>();
 	
 	public Fornecedor() {
 	}
@@ -70,6 +77,10 @@ public class Fornecedor {
 
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
+	}
+
+	public Set<Contrato> getContratos() {
+		return contratos;
 	}
 
 	@Override

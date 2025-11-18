@@ -7,7 +7,6 @@ public class AreaSimpleDTO {
 	private Long id;
 	private String nome;
 	private String responsavel;
-	private String substitutoResponsavel;
 	
 	public AreaSimpleDTO() {
 	}
@@ -16,7 +15,6 @@ public class AreaSimpleDTO {
 		this.id = obj.getId();
 		this.nome = obj.getNome();
 		this.responsavel = obj.getResponsavel();
-		this.substitutoResponsavel = obj.getSubstitutoResponsavel();
 	}
 
 	public Long getId() {
@@ -43,11 +41,8 @@ public class AreaSimpleDTO {
 		this.responsavel = responsavel;
 	}
 
-	public String getSubstitutoResponsavel() {
-		return substitutoResponsavel;
-	}
-
-	public void setSubstitutoResponsavel(String substitutoResponsavel) {
-		this.substitutoResponsavel = substitutoResponsavel;
+	@Override
+	public String toString() {
+		return "AreaSimpleDTO [id=" + id + ", nome=" + nome + ", responsavel=" + responsavel + "]";
 	}
 }

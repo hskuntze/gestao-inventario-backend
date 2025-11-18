@@ -1,5 +1,9 @@
 package br.com.ctcea.gestaoinv.exceptions;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.CONFLICT)
 public class RecursoExistenteException extends RuntimeException {
 	private static final long serialVersionUID = -1050710709668769192L;
 

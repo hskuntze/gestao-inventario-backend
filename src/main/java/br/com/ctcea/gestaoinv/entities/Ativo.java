@@ -71,17 +71,17 @@ public abstract class Ativo {
     private LocalDate dataAquisicao;
     private String codigoSerie;
     private String observacoes;
-    private String linkDocumento;
     
     private boolean gerarIdPatrimonial;
     private boolean desabilitado;
+    private boolean descartado;
+    private boolean devolvido;
     private String razaoDesabilitado;
-    
-    private String qrCodeUrl;
     
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     
+    private String qrCodeUrl;
     @Lob
     private byte[] qrCodeImage;
     
@@ -187,14 +187,6 @@ public abstract class Ativo {
 		this.observacoes = observacoes;
 	}
 
-	public String getLinkDocumento() {
-		return linkDocumento;
-	}
-
-	public void setLinkDocumento(String linkDocumento) {
-		this.linkDocumento = linkDocumento;
-	}
-
 	public boolean getGerarIdPatrimonial() {
 		return gerarIdPatrimonial;
 	}
@@ -217,6 +209,22 @@ public abstract class Ativo {
 
 	public void setDesabilitado(boolean desabilitado) {
 		this.desabilitado = desabilitado;
+	}
+
+	public boolean isDescartado() {
+		return descartado;
+	}
+
+	public void setDescartado(boolean descartado) {
+		this.descartado = descartado;
+	}
+
+	public boolean isDevolvido() {
+		return devolvido;
+	}
+
+	public void setDevolvido(boolean devolvido) {
+		this.devolvido = devolvido;
 	}
 
 	public String getRazaoDesabilitado() {

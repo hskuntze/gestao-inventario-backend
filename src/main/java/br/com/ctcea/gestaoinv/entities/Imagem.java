@@ -1,6 +1,7 @@
 package br.com.ctcea.gestaoinv.entities;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,6 +30,7 @@ public class Imagem {
 	@Type(type = "org.hibernate.type.BinaryType")
 	@Column(columnDefinition = "BLOB")
 	private byte[] conteudo;
+	private Long tamanho;
 	
 	@ManyToOne
     @JoinColumn(name = "id_ativo")
@@ -54,6 +56,14 @@ public class Imagem {
 		this.nome = nome;
 	}
 
+	public Long getTamanho() {
+		return tamanho;
+	}
+
+	public void setTamanho(Long tamanho) {
+		this.tamanho = tamanho;
+	}
+
 	public byte[] getConteudo() {
 		return conteudo;
 	}
@@ -68,6 +78,23 @@ public class Imagem {
 
 	public void setAtivo(Ativo ativo) {
 		this.ativo = ativo;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Imagem other = (Imagem) obj;
+		return Objects.equals(id, other.id);
 	}
 
 	@Override

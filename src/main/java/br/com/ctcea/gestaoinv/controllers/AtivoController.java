@@ -51,6 +51,18 @@ public class AtivoController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PostMapping(value = "/descartar")
+	public ResponseEntity<Void> descartarAtivo(@RequestParam Long id) {
+		ativoService.descartarAtivo(id);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping(value = "/devolver")
+	public ResponseEntity<Void> devolverAtivo(@RequestParam Long id) {
+		ativoService.devolverAtivo(id);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@PostMapping(value = "/habilitar")
 	public ResponseEntity<Void> habilitarAtivo(@RequestParam Long id) {
 		ativoService.habilitarAtivo(id);

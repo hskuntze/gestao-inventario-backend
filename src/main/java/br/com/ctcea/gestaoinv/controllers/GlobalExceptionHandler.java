@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import br.com.ctcea.gestaoinv.dto.LocalizacaoDTO;
+import br.com.ctcea.gestaoinv.exceptions.RecursoExistenteException;
 import br.com.ctcea.gestaoinv.exceptions.StandardError;
 import br.com.ctcea.gestaoinv.services.LocalizacaoService;
 
@@ -48,6 +49,14 @@ public class GlobalExceptionHandler {
 
 		StandardError err = new StandardError(Instant.now(), HttpStatus.CONFLICT.value(), "Integridade referencial violada", message, request.getRequestURI());
 
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
+	}
+	
+	@ExceptionHandler(RecursoExistenteException.class)
+	public ResponseEntity<StandardError> handleRecursoExistente(RecursoExistenteException ex, HttpServletRequest request) {
+		String message = ex.getMessage();
+
+		StandardError err = new StandardError(Instant.now(), HttpStatus.CONFLICT.value(), "Recurso já existente", message, request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
 	}
 

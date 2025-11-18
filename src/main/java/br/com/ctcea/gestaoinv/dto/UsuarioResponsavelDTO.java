@@ -10,6 +10,7 @@ public class UsuarioResponsavelDTO implements Serializable {
 	private Long id;
 	private String nome;
 	private String email;
+	private AreaSimpleDTO area;
 	
 	public UsuarioResponsavelDTO() {
 	}
@@ -18,6 +19,9 @@ public class UsuarioResponsavelDTO implements Serializable {
 		this.email = obj.getEmail();
 		this.id = obj.getId();
 		this.nome = obj.getNome();
+		if(obj.getArea() != null) {
+			this.area = new AreaSimpleDTO(obj.getArea());
+		}
 	}
 
 	public Long getId() {
@@ -42,5 +46,13 @@ public class UsuarioResponsavelDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public AreaSimpleDTO getArea() {
+		return area;
+	}
+
+	public void setArea(AreaSimpleDTO area) {
+		this.area = area;
 	}
 }

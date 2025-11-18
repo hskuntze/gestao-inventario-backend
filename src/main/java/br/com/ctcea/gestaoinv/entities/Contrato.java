@@ -1,18 +1,15 @@
 package br.com.ctcea.gestaoinv.entities;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.com.ctcea.gestaoinv.enums.TermoParceria;
@@ -31,9 +28,9 @@ public class Contrato {
 	private LocalDate inicioDataVigencia;
 	private LocalDate fimDataVigencia;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_contrato")
-	private Set<Fornecedor> fornecedores = new HashSet<>();
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_fornecedor")
+	private Fornecedor fornecedor;
 	
 	public Contrato() {
 	}
@@ -86,8 +83,12 @@ public class Contrato {
 		this.fimDataVigencia = fimDataVigencia;
 	}
 
-	public Set<Fornecedor> getFornecedores() {
-		return fornecedores;
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 
 	@Override

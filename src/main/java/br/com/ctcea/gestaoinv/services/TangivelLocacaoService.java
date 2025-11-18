@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.zxing.WriterException;
 
@@ -25,6 +26,7 @@ import br.com.ctcea.gestaoinv.entities.Localizacao;
 import br.com.ctcea.gestaoinv.entities.TangivelLocacao;
 import br.com.ctcea.gestaoinv.entities.Usuario;
 import br.com.ctcea.gestaoinv.entities.UsuarioResponsavel;
+import br.com.ctcea.gestaoinv.excel.TangivelLocacaoExcelReader;
 import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.AreaRepository;
 import br.com.ctcea.gestaoinv.repositories.ContratoRepository;
@@ -72,6 +74,9 @@ public class TangivelLocacaoService {
 	@Autowired
 	private UsuarioService usuarioService;
 	
+	@Autowired
+	private TangivelLocacaoExcelReader excelReader;
+	
 	@Transactional(readOnly = true)
 	public TangivelLocacao getTangivelLocacaoObject(Long id) {
 		return tangivelLocacaoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Não foi possível localizar um ativo tangível de locação com ID " + id));
@@ -94,7 +99,8 @@ public class TangivelLocacaoService {
 		
 		if (newRegister.getUsuarioResponsavel().getId() != null
 				|| !newRegister.getUsuarioResponsavel().getNome().equals("N/A")
-				|| !newRegister.getUsuarioResponsavel().getNome().equals("Sem usuário")) {
+				|| !newRegister.getUsuarioResponsavel().getNome().equals("Sem usuário")
+				|| !newRegister.getUsuarioResponsavel().getNome().equals("DISPONÍVEL PARA UTILIZAÇÃO")) {
 			historicoService.recordOperation("ATRIBUIÇÃO", newRegister);
 		}
 		
@@ -116,9 +122,9 @@ public class TangivelLocacaoService {
 	}
 	
 	@Transactional
-	public TangivelLocacaoDTO update(TangivelLocacao obj) {
+	public TangivelLocacaoDTO update(String tipoOperacao, TangivelLocacao obj) {
 		TangivelLocacao ativo = tangivelLocacaoRepository.save(obj);
-		historicoService.recordOperation("ATUALIZAÇÃO", ativo);
+		historicoService.recordOperation(tipoOperacao, ativo);
 		return new TangivelLocacaoDTO(ativo);
 	}
 	
@@ -137,6 +143,25 @@ public class TangivelLocacaoService {
 	public void delete(Long id) {
 		tangivelLocacaoRepository.deleteById(id);
 		LOGGER.info("[LOG] - Ativo tangível de locação {} excluído.", id);
+	}
+	
+	@Transactional
+	public void importarExcel(MultipartFile file) throws IOException {
+		List<TangivelLocacao> ativos = excelReader.read(file);
+		tangivelLocacaoRepository.saveAll(ativos);
+		
+		for(TangivelLocacao tl : ativos) {
+			gerarQRCode(tl);
+			
+			historicoService.recordOperation("REGISTRO", tl);
+			
+			if (tl.getUsuarioResponsavel().getId() != null
+					|| !tl.getUsuarioResponsavel().getNome().equals("N/A")
+					|| !tl.getUsuarioResponsavel().getNome().equals("Sem usuário")
+					|| !tl.getUsuarioResponsavel().getNome().equals("DISPONÍVEL PARA UTILIZAÇÃO")) {
+				historicoService.recordOperation("ATRIBUIÇÃO", tl);
+			}
+		}
 	}
 	
 	private void setTermoParceria(TangivelLocacao entity, TangivelLocacaoDTO dto) {
@@ -177,7 +202,6 @@ public class TangivelLocacaoService {
 		}
 		
 		entity.setIdPatrimonial(dto.getIdPatrimonial());
-		entity.setLinkDocumento(dto.getLinkDocumento());
 		
 		entity.setObservacoes(dto.getObservacoes());
 		

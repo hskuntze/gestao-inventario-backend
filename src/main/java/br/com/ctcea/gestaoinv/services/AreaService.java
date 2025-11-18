@@ -48,7 +48,6 @@ public class AreaService {
 	private void dtoToEntity(AreaDTO dto, Area area) {
 		area.setNome(dto.getNome());
 		area.setResponsavel(dto.getResponsavel());
-		area.setSubstitutoResponsavel(dto.getSubstitutoResponsavel());
 		
 		area.getLocalizacoes().removeIf(existing ->
 	        dto.getLocalizacoes().stream().noneMatch(l -> l.getId() != null && l.getId().equals(existing.getId()))

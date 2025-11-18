@@ -2,8 +2,6 @@ package br.com.ctcea.gestaoinv.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.ctcea.gestaoinv.entities.Contrato;
 import br.com.ctcea.gestaoinv.enums.TermoParceria;
@@ -19,7 +17,7 @@ public class ContratoDTO implements Serializable {
 	private LocalDate inicioDataVigencia;
 	private LocalDate fimDataVigencia;
 	
-	private List<FornecedorDTO> fornecedores = new ArrayList<>();
+	private FornecedorDTO fornecedor;
 	
 	public ContratoDTO() {
 	}
@@ -35,8 +33,7 @@ public class ContratoDTO implements Serializable {
 		this.termoParceria = c.getTermoParceria();
 		this.inicioDataVigencia = c.getInicioDataVigencia();
 		this.fimDataVigencia = c.getFimDataVigencia();
-		
-		c.getFornecedores().forEach(f -> this.fornecedores.add(new FornecedorDTO(f)));
+		this.fornecedor = new FornecedorDTO(c.getFornecedor());
 	}
 
 	public Long getId() {
@@ -87,11 +84,11 @@ public class ContratoDTO implements Serializable {
 		this.fimDataVigencia = fimDataVigencia;
 	}
 
-	public List<FornecedorDTO> getFornecedores() {
-		return fornecedores;
+	public FornecedorDTO getFornecedor() {
+		return fornecedor;
 	}
 
-	public void setFornecedores(List<FornecedorDTO> fornecedores) {
-		this.fornecedores = fornecedores;
+	public void setFornecedor(FornecedorDTO fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 }

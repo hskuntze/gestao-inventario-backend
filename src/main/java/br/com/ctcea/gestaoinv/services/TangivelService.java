@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.zxing.WriterException;
 
@@ -25,6 +26,7 @@ import br.com.ctcea.gestaoinv.entities.Localizacao;
 import br.com.ctcea.gestaoinv.entities.Tangivel;
 import br.com.ctcea.gestaoinv.entities.Usuario;
 import br.com.ctcea.gestaoinv.entities.UsuarioResponsavel;
+import br.com.ctcea.gestaoinv.excel.TangivelExcelReader;
 import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.AreaRepository;
 import br.com.ctcea.gestaoinv.repositories.ContratoRepository;
@@ -71,6 +73,9 @@ public class TangivelService {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private TangivelExcelReader excelReader;
 
 	@Transactional(readOnly = true)
 	public Tangivel getTangivelObject(Long id) {
@@ -124,9 +129,9 @@ public class TangivelService {
 	}
 
 	@Transactional
-	public TangivelDTO update(Tangivel obj) {
+	public TangivelDTO update(String tipoOperacao, Tangivel obj) {
 		Tangivel ativo = tangivelRepository.save(obj);
-		historicoService.recordOperation("ATUALIZAÇÃO", ativo);
+		historicoService.recordOperation(tipoOperacao, ativo);
 		return new TangivelDTO(ativo);
 	}
 
@@ -145,6 +150,24 @@ public class TangivelService {
 	public void delete(Long id) {
 		tangivelRepository.deleteById(id);
 		LOGGER.info("[LOG] - Ativo tangível {} excluído.", id);
+	}
+	
+	@Transactional
+	public void importarExcel(MultipartFile file) throws IOException {
+		List<Tangivel> ativos = excelReader.read(file);
+		tangivelRepository.saveAll(ativos);
+		
+		for(Tangivel t : ativos) {
+			gerarQRCode(t);
+			
+			historicoService.recordOperation("REGISTRO", t);
+			
+			if (t.getUsuarioResponsavel().getId() != null
+					|| !t.getUsuarioResponsavel().getNome().equals("N/A")
+					|| !t.getUsuarioResponsavel().getNome().equals("Sem usuário")) {
+				historicoService.recordOperation("ATRIBUIÇÃO", t);
+			}
+		}
 	}
 	
 	private void setTermoParceria(Tangivel entity, TangivelDTO dto) {
@@ -175,7 +198,7 @@ public class TangivelService {
 		Fornecedor f = fornecedorRepository.getReferenceById(dto.getFornecedor().getId());
 		entity.setFornecedor(f);
 		
-		if(dto.getContrato().getId() != null) {
+		if(dto.getContrato() != null && dto.getContrato().getId() != null) {
 			Contrato c = contratoRepository.getReferenceById(dto.getContrato().getId());
 			entity.setContrato(c);
 		} else {
@@ -183,7 +206,6 @@ public class TangivelService {
 		}
 
 		entity.setIdPatrimonial(dto.getIdPatrimonial());
-		entity.setLinkDocumento(dto.getLinkDocumento());
 
 		entity.setObservacoes(dto.getObservacoes());
 
