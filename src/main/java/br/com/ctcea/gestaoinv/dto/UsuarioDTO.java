@@ -14,6 +14,7 @@ public class UsuarioDTO {
 	private String nome;
 	private String login;
 	private String userUuid;
+	private UsuarioResponsavelDTO usuarioResponsavel;
 	private TermoParceria termoParceria;
 	private List<PerfilDTO> perfis = new ArrayList<>();
 	
@@ -26,6 +27,11 @@ public class UsuarioDTO {
 		this.nome = user.getNome();
 		this.login = user.getLogin();
 		this.userUuid = user.getUserUuid();
+		if(user.getUsuarioResponsavel() != null) {
+			this.usuarioResponsavel = new UsuarioResponsavelDTO(user.getUsuarioResponsavel());
+		} else {
+			this.usuarioResponsavel = null;
+		}
 		this.termoParceria = user.getTermoParceria();
 		
 		this.perfis.clear();
@@ -64,6 +70,14 @@ public class UsuarioDTO {
 
 	public void setUserUuid(String userUuid) {
 		this.userUuid = userUuid;
+	}
+
+	public UsuarioResponsavelDTO getUsuarioResponsavel() {
+		return usuarioResponsavel;
+	}
+
+	public void setUsuarioResponsavel(UsuarioResponsavelDTO usuarioResponsavel) {
+		this.usuarioResponsavel = usuarioResponsavel;
 	}
 
 	public String getNome() {

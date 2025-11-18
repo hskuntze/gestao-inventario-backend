@@ -3,11 +3,11 @@ package br.com.ctcea.gestaoinv.logs;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -23,7 +23,8 @@ public class LogOperacao {
 	private String url;
 	private int statusHttp;
 	private LocalDateTime dataOperacao;
-	@Column(length = 255)
+	
+	@Lob
 	private String detalhes;
 	
 	public LogOperacao() {

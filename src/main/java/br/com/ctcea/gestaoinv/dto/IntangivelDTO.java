@@ -24,6 +24,8 @@ public class IntangivelDTO {
 
 	private boolean gerarIdPatrimonial;
     private boolean desabilitado;
+    private boolean descartado;
+    private boolean devolvido;
     private String razaoDesabilitado;
 	
     public IntangivelDTO() {
@@ -35,9 +37,18 @@ public class IntangivelDTO {
     	this.categoria = obj.getCategoria();
     	this.termoParceria = obj.getTermoParceria();
     	this.descricao = obj.getDescricao();
-    	this.area = new AreaSimpleDTO(obj.getArea());
-    	this.usuarioResponsavel = new UsuarioResponsavelDTO(obj.getUsuarioResponsavel());
-    	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
+    	
+    	if(obj.getArea() != null) {
+        	this.area = new AreaSimpleDTO(obj.getArea());
+    	} else {
+    		this.area = null;
+    	}
+    	
+    	if(obj.getLocalizacao() != null) {
+        	this.localizacao = new LocalizacaoDTO(obj.getLocalizacao());
+    	} else {
+    		this.localizacao = null;
+    	}
     	
     	if(obj.getContrato() != null) {
         	this.contrato = new ContratoDTO(obj.getContrato());
@@ -45,16 +56,16 @@ public class IntangivelDTO {
     		this.contrato = null;
     	}
     	
+    	this.usuarioResponsavel = new UsuarioResponsavelDTO(obj.getUsuarioResponsavel());
+    	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
     	this.dataAquisicao = obj.getDataAquisicao();
     	this.codigoSerie = obj.getCodigoSerie();
     	this.observacoes = obj.getObservacoes();
     	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
     	this.desabilitado = obj.isDesabilitado();
+    	this.descartado = obj.isDescartado();
+    	this.devolvido = obj.isDevolvido();
     	this.razaoDesabilitado = obj.getRazaoDesabilitado();
-    	
-    	if(obj.getLocalizacao() != null) {
-        	this.localizacao = new LocalizacaoDTO(obj.getLocalizacao());
-    	}
     }
 
 	public Long getId() {
@@ -175,6 +186,22 @@ public class IntangivelDTO {
 
 	public void setDesabilitado(boolean desabilitado) {
 		this.desabilitado = desabilitado;
+	}
+	
+	public boolean isDescartado() {
+		return descartado;
+	}
+
+	public void setDescartado(boolean descartado) {
+		this.descartado = descartado;
+	}
+
+	public boolean isDevolvido() {
+		return devolvido;
+	}
+
+	public void setDevolvido(boolean devolvido) {
+		this.devolvido = devolvido;
 	}
 
 	public String getRazaoDesabilitado() {

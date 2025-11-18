@@ -3,9 +3,12 @@ package br.com.ctcea.gestaoinv.entities;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +20,10 @@ public class UsuarioResponsavel {
 	private Long id;
 	private String nome;
 	private String email;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_area")
+	private Area area;
 	
 	public UsuarioResponsavel() {
 	}
@@ -43,6 +50,14 @@ public class UsuarioResponsavel {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
 	}
 
 	@Override

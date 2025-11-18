@@ -10,7 +10,6 @@ public class AreaDTO {
 	private Long id;
 	private String nome;
 	private String responsavel;
-	private String substitutoResponsavel;
 	
 	private List<LocalizacaoDTO> localizacoes = new ArrayList<>();
 	
@@ -21,7 +20,6 @@ public class AreaDTO {
 		this.id = obj.getId();
 		this.nome = obj.getNome();
 		this.responsavel = obj.getResponsavel();
-		this.substitutoResponsavel = obj.getSubstitutoResponsavel();
 		
 		obj.getLocalizacoes().forEach(l -> this.localizacoes.add(new LocalizacaoDTO(l)));
 	}
@@ -48,14 +46,6 @@ public class AreaDTO {
 
 	public void setResponsavel(String responsavel) {
 		this.responsavel = responsavel;
-	}
-
-	public String getSubstitutoResponsavel() {
-		return substitutoResponsavel;
-	}
-
-	public void setSubstitutoResponsavel(String substitutoResponsavel) {
-		this.substitutoResponsavel = substitutoResponsavel;
 	}
 
 	public List<LocalizacaoDTO> getLocalizacoes() {

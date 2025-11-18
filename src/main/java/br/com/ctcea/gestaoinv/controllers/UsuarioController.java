@@ -71,15 +71,21 @@ public class UsuarioController {
 	 * @param dto
 	 * @return
 	 */
-	@PostMapping(value = "/salvarTrocaDeSenha")
+	@PostMapping(value = "/senha/troca/salvar")
 	public ResponseEntity<Void> salvarTrocaDeSenha(@RequestParam String novaSenha, @RequestParam String senhaAntiga) {
 		usuarioService.trocarSenhaDoUsuario(novaSenha, senhaAntiga);
 		return ResponseEntity.ok().build();
 	}
 	
-	@PostMapping(value = "/admin/trocarSenhaUsuario")
+	@PostMapping(value = "/senha/admin/trocar")
 	public ResponseEntity<Void> trocarSenhaDoUsuarioPorAdmin(@RequestBody TrocaSenhaRequestDTO request) {
 		usuarioService.trocarSenhaDoUsuarioPorAdmin(request.getUserId(), request.getNovaSenha());
+		return ResponseEntity.ok().build();
+	}
+	
+	@PostMapping(value = "/senha/primeiro/acesso/trocar")
+	public ResponseEntity<Void> trocarPrimeiraSenha(@RequestParam String novaSenha) {
+		usuarioService.trocarPrimeiraSenha(novaSenha);
 		return ResponseEntity.ok().build();
 	}
 	

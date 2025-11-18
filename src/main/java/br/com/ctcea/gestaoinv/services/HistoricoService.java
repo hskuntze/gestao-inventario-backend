@@ -67,8 +67,8 @@ public class HistoricoService {
 		historico.setAtivo(ativo);
 		historico.setUserId(Long.valueOf(usuario.getId()));
 		historico.setUserLogin(usuario.getLogin());
-		historico.setArea(ativo.getArea().getNome());
-		historico.setLocalizacao(ativo.getLocalizacao().getNome());
+		historico.setArea(ativo.getArea() != null ? ativo.getArea().getNome() : null);
+		historico.setLocalizacao(ativo.getLocalizacao() != null ? ativo.getLocalizacao().getNome() : null);
 		historico.setUsuarioResponsavel(ativo.getUsuarioResponsavel().getNome());
 		historico.setTermoParceria(usuario.getTermoParceria());
 		

@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -38,8 +39,8 @@ public class Usuario implements Serializable, UserDetails {
 	private String login;
 	private String password;
 	private String userUuid;
+	private boolean firstAccess;
 	private Integer userState;
-	private Integer firstAccess;
 	
 	@Enumerated(EnumType.STRING)
 	private TermoParceria termoParceria;
@@ -49,6 +50,14 @@ public class Usuario implements Serializable, UserDetails {
 				joinColumns = @JoinColumn(name = "id_usuario"),
 				inverseJoinColumns = @JoinColumn(name = "id_perfil"))
 	private List<Perfil> perfis = new ArrayList<>();
+	
+	/**
+	 * Afim de possibilitar que um Usuário de sistema seja associado a um Usuário Responsável
+	 * essa relação é definida, de forma que só exista a relação 1-1.
+	 */
+	@OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_usuario_responsavel") // FK na tabela USUARIO
+    private UsuarioResponsavel usuarioResponsavel;
 	
 	public Usuario() {
 	}
@@ -101,11 +110,11 @@ public class Usuario implements Serializable, UserDetails {
 		this.userState = userState;
 	}
 
-	public Integer getFirstAccess() {
+	public boolean isFirstAccess() {
 		return firstAccess;
 	}
 
-	public void setFirstAccess(Integer firstAccess) {
+	public void setFirstAccess(boolean firstAccess) {
 		this.firstAccess = firstAccess;
 	}
 
@@ -127,6 +136,14 @@ public class Usuario implements Serializable, UserDetails {
 
 	public List<Perfil> getPerfis() {
 		return perfis;
+	}
+
+	public UsuarioResponsavel getUsuarioResponsavel() {
+		return usuarioResponsavel;
+	}
+
+	public void setUsuarioResponsavel(UsuarioResponsavel usuarioResponsavel) {
+		this.usuarioResponsavel = usuarioResponsavel;
 	}
 
 	@Override

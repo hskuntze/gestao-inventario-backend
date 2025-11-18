@@ -27,6 +27,8 @@ public class TangivelLocacaoDTO {
     
 	private boolean gerarIdPatrimonial;
     private boolean desabilitado;
+    private boolean descartado;
+    private boolean devolvido;
     private String razaoDesabilitado;
     
     public TangivelLocacaoDTO() {
@@ -54,6 +56,8 @@ public class TangivelLocacaoDTO {
     	this.estadoConservacao = obj.getEstadoConservacao();
     	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
     	this.desabilitado = obj.isDesabilitado();
+    	this.descartado = obj.isDescartado();
+    	this.devolvido = obj.isDevolvido();
     	this.razaoDesabilitado = obj.getRazaoDesabilitado();
     	this.dataDevolucaoPrevista = obj.getDataDevolucaoPrevista();
     	this.dataDevolucaoRealizada = obj.getDataDevolucaoRealizada();
@@ -205,6 +209,22 @@ public class TangivelLocacaoDTO {
 
 	public void setDesabilitado(boolean desabilitado) {
 		this.desabilitado = desabilitado;
+	}
+
+	public boolean isDescartado() {
+		return descartado;
+	}
+
+	public void setDescartado(boolean descartado) {
+		this.descartado = descartado;
+	}
+
+	public boolean isDevolvido() {
+		return devolvido;
+	}
+
+	public void setDevolvido(boolean devolvido) {
+		this.devolvido = devolvido;
 	}
 
 	public String getRazaoDesabilitado() {

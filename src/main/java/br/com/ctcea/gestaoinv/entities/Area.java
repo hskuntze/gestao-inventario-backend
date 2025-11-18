@@ -22,7 +22,6 @@ public class Area {
 	private Long id;
 	private String nome;
 	private String responsavel;
-	private String substitutoResponsavel;
 	
 	@OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Localizacao> localizacoes = new HashSet<>();
@@ -52,14 +51,6 @@ public class Area {
 
 	public void setResponsavel(String responsavel) {
 		this.responsavel = responsavel;
-	}
-
-	public String getSubstitutoResponsavel() {
-		return substitutoResponsavel;
-	}
-
-	public void setSubstitutoResponsavel(String substitutoResponsavel) {
-		this.substitutoResponsavel = substitutoResponsavel;
 	}
 
 	public Set<Localizacao> getLocalizacoes() {

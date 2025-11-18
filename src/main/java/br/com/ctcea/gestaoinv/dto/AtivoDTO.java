@@ -34,6 +34,8 @@ public class AtivoDTO {
 	
 	private boolean gerarIdPatrimonial;
     private boolean desabilitado;
+    private boolean descartado;
+    private boolean devolvido;
     private String razaoDesabilitado;
 	
 	public AtivoDTO() {
@@ -45,9 +47,20 @@ public class AtivoDTO {
     	this.categoria = obj.getCategoria();
     	this.termoParceria = obj.getTermoParceria();
     	this.descricao = obj.getDescricao();
-    	this.area = new AreaSimpleDTO(obj.getArea());
+    	
+    	if(obj.getArea() != null) {
+        	this.area = new AreaSimpleDTO(obj.getArea());
+    	} else {
+    		this.area =  null;
+    	}
+    	
+    	if(obj.getFornecedor() != null) {
+        	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
+    	} else {
+    		this.fornecedor = null;
+    	}
+    	
     	this.usuarioResponsavel = new UsuarioResponsavelDTO(obj.getUsuarioResponsavel());
-    	this.fornecedor = new FornecedorDTO(obj.getFornecedor());
     	
     	if(obj.getContrato() != null) {
         	this.contrato = new ContratoDTO(obj.getContrato());
@@ -60,6 +73,8 @@ public class AtivoDTO {
     	this.qrCodeUrl = obj.getQrCodeUrl();
     	this.gerarIdPatrimonial = obj.getGerarIdPatrimonial();
     	this.desabilitado = obj.isDesabilitado();
+    	this.descartado = obj.isDescartado();
+    	this.devolvido = obj.isDevolvido();
     	this.razaoDesabilitado = obj.getRazaoDesabilitado();
     	
     	if(obj.getLocalizacao() != null) {
@@ -230,6 +245,22 @@ public class AtivoDTO {
 
 	public void setDesabilitado(boolean desabilitado) {
 		this.desabilitado = desabilitado;
+	}
+
+	public boolean isDescartado() {
+		return descartado;
+	}
+
+	public void setDescartado(boolean descartado) {
+		this.descartado = descartado;
+	}
+
+	public boolean isDevolvido() {
+		return devolvido;
+	}
+
+	public void setDevolvido(boolean devolvido) {
+		this.devolvido = devolvido;
 	}
 
 	public String getRazaoDesabilitado() {

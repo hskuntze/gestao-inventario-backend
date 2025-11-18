@@ -74,13 +74,14 @@ public abstract class Ativo {
     
     private boolean gerarIdPatrimonial;
     private boolean desabilitado;
+    private boolean descartado;
+    private boolean devolvido;
     private String razaoDesabilitado;
-    
-    private String qrCodeUrl;
     
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     
+    private String qrCodeUrl;
     @Lob
     private byte[] qrCodeImage;
     
@@ -208,6 +209,22 @@ public abstract class Ativo {
 
 	public void setDesabilitado(boolean desabilitado) {
 		this.desabilitado = desabilitado;
+	}
+
+	public boolean isDescartado() {
+		return descartado;
+	}
+
+	public void setDescartado(boolean descartado) {
+		this.descartado = descartado;
+	}
+
+	public boolean isDevolvido() {
+		return devolvido;
+	}
+
+	public void setDevolvido(boolean devolvido) {
+		this.devolvido = devolvido;
 	}
 
 	public String getRazaoDesabilitado() {

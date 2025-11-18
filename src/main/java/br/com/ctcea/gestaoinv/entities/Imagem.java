@@ -30,6 +30,7 @@ public class Imagem {
 	@Type(type = "org.hibernate.type.BinaryType")
 	@Column(columnDefinition = "BLOB")
 	private byte[] conteudo;
+	private Long tamanho;
 	
 	@ManyToOne
     @JoinColumn(name = "id_ativo")
@@ -53,6 +54,14 @@ public class Imagem {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Long getTamanho() {
+		return tamanho;
+	}
+
+	public void setTamanho(Long tamanho) {
+		this.tamanho = tamanho;
 	}
 
 	public byte[] getConteudo() {

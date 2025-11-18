@@ -196,6 +196,48 @@ public class AtivoService {
 	}
 	
 	@Transactional
+	public void descartarAtivo(Long id) {
+		Ativo obj = getObjectById(id);
+		obj.setDesabilitado(true);
+		obj.setDescartado(true);
+		
+		if(obj instanceof Tangivel) {
+			tangivelRepository.save((Tangivel) obj);
+		}
+		
+		if(obj instanceof Intangivel) {
+			intangivelRepository.save((Intangivel) obj);
+		}
+		
+		if(obj instanceof TangivelLocacao) {
+			tangivelLocacaoRepository.save((TangivelLocacao) obj);
+		}
+		
+		historicoService.recordOperation("DESCARTAR", obj);
+	}
+	
+	@Transactional
+	public void devolverAtivo(Long id) {
+		Ativo obj = getObjectById(id);
+		obj.setDesabilitado(true);
+		obj.setDevolvido(true);
+		
+		if(obj instanceof Tangivel) {
+			tangivelRepository.save((Tangivel) obj);
+		}
+		
+		if(obj instanceof Intangivel) {
+			intangivelRepository.save((Intangivel) obj);
+		}
+		
+		if(obj instanceof TangivelLocacao) {
+			tangivelLocacaoRepository.save((TangivelLocacao) obj);
+		}
+		
+		historicoService.recordOperation("DEVOLVER", obj);
+	}
+	
+	@Transactional
 	public void habilitarAtivo(Long id) {
 		Ativo obj = getObjectById(id);
 		obj.setDesabilitado(false);

@@ -24,7 +24,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private JwtTokenStore tokenStore;
     
-    private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**", "/swagger-ui/**", "/usuarios/registrar" };
+    private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**", "/swagger-ui/**" };
+    private static final String[] ADMIN = { "/**" };
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -37,6 +38,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         .csrf(csrf -> csrf.disable())
         .authorizeRequests(requests -> requests
                 .antMatchers(PUBLIC).permitAll() 
+                .antMatchers(ADMIN).hasAnyAuthority("PERFIL_ADMIN", "PERFIL_ADMIN_TP")
                 .anyRequest().authenticated()
             )
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -55,6 +57,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		CorsConfiguration corsConfig = new CorsConfiguration();
 		corsConfig.setAllowedOrigins(Arrays.asList(
 				"http://localhost",
+				"capacitor://localhost",
 				"http://localhost:3000", 
 				"http://172.20.71.103:3000", 
 				"http://localhost:3001", 

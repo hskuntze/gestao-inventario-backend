@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.zxing.WriterException;
 
@@ -25,6 +26,7 @@ import br.com.ctcea.gestaoinv.entities.Intangivel;
 import br.com.ctcea.gestaoinv.entities.Localizacao;
 import br.com.ctcea.gestaoinv.entities.Usuario;
 import br.com.ctcea.gestaoinv.entities.UsuarioResponsavel;
+import br.com.ctcea.gestaoinv.excel.IntangivelExcelReader;
 import br.com.ctcea.gestaoinv.exceptions.RecursoNaoEncontradoException;
 import br.com.ctcea.gestaoinv.repositories.AreaRepository;
 import br.com.ctcea.gestaoinv.repositories.ContratoRepository;
@@ -71,6 +73,9 @@ public class IntangivelService {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private IntangivelExcelReader excelReader;
 
 	@Transactional(readOnly = true)
 	public Intangivel getIntangivelObject(Long id) {
@@ -95,7 +100,8 @@ public class IntangivelService {
 
 		if (newRegister.getUsuarioResponsavel().getId() != null
 				|| !newRegister.getUsuarioResponsavel().getNome().equals("N/A")
-				|| !newRegister.getUsuarioResponsavel().getNome().equals("Sem usuário")) {
+				|| !newRegister.getUsuarioResponsavel().getNome().equals("Sem usuário")
+				|| !newRegister.getUsuarioResponsavel().getNome().equals("DISPONÍVEL PARA UTILIZAÇÃO")) {
 			historicoService.recordOperation("ATRIBUIÇÃO", newRegister);
 		}
 
@@ -117,9 +123,9 @@ public class IntangivelService {
 	}
 
 	@Transactional
-	public IntangivelDTO update(Intangivel obj) {
+	public IntangivelDTO update(String tipoOperacao, Intangivel obj) {
 		Intangivel ativo = intangivelRepository.save(obj);
-		historicoService.recordOperation("ATUALIZAÇÃO", ativo);
+		historicoService.recordOperation(tipoOperacao, ativo);
 		return new IntangivelDTO(ativo);
 	}
 
@@ -140,6 +146,25 @@ public class IntangivelService {
 		LOGGER.info("[LOG] - Ativo intangível {} excluído.", id);
 	}
 	
+	@Transactional
+	public void importarExcel(MultipartFile file) throws IOException {
+		List<Intangivel> ativos = excelReader.read(file);
+		intangivelRepository.saveAll(ativos);
+		
+		for(Intangivel t : ativos) {
+			gerarQRCode(t);
+			
+			historicoService.recordOperation("REGISTRO", t);
+			
+			if (t.getUsuarioResponsavel().getId() != null
+					&& !t.getUsuarioResponsavel().getNome().equals("N/A")
+					&& !t.getUsuarioResponsavel().getNome().equals("Sem usuário")
+					&& !t.getUsuarioResponsavel().getNome().equals("DISPONÍVEL PARA UTILIZAÇÃO")) {
+				historicoService.recordOperation("ATRIBUIÇÃO", t);
+			}
+		}
+	}
+	
 	private void setTermoParceria(Intangivel entity, IntangivelDTO dto) {
 		Usuario usuario = usuarioService.getAuthenticatedUser();
 		if(usuario.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("PERFIL_ADMIN"))) {
@@ -152,11 +177,20 @@ public class IntangivelService {
 	private void dtoToEntity(Intangivel entity, IntangivelDTO dto) {
 		setTermoParceria(entity, dto);
 		
-		Area a = areaRepository.getReferenceById(dto.getArea().getId());
-		entity.setArea(a);
+		if(dto.getArea() != null && dto.getArea().getId() != null) {
+			System.out.println(dto.getArea());
+			Area a = areaRepository.getReferenceById(dto.getArea().getId());
+			entity.setArea(a);
+		} else {
+			entity.setArea(null);
+		}
 		
-		Localizacao l = localizacaoRepository.getReferenceById(dto.getLocalizacao().getId());
-		entity.setLocalizacao(l);
+		if(dto.getLocalizacao() != null && dto.getLocalizacao().getId() != null) {
+			Localizacao l = localizacaoRepository.getReferenceById(dto.getLocalizacao().getId());
+			entity.setLocalizacao(l);
+		} else {
+			entity.setLocalizacao(null);
+		}
 
 		entity.setCategoria(dto.getCategoria());
 		entity.setCodigoSerie(dto.getCodigoSerie());
@@ -166,7 +200,7 @@ public class IntangivelService {
 		Fornecedor f = fornecedorRepository.getReferenceById(dto.getFornecedor().getId());
 		entity.setFornecedor(f);
 
-		if(dto.getContrato().getId() != null) {
+		if(dto.getContrato() != null && dto.getContrato().getId() != null) {
 			Contrato c = contratoRepository.getReferenceById(dto.getContrato().getId());
 			entity.setContrato(c);
 		} else {

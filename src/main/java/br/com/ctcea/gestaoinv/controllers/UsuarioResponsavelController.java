@@ -28,6 +28,11 @@ public class UsuarioResponsavelController {
 	public ResponseEntity<List<UsuarioResponsavelDTO>> getAll() {
 		return ResponseEntity.ok().body(usuarioResponsavelService.getAll());
 	}
+	
+	@GetMapping(value = "/area/{id}")
+	public ResponseEntity<List<UsuarioResponsavelDTO>> getAllByAreaId(@PathVariable Long id) {
+		return ResponseEntity.ok().body(usuarioResponsavelService.getAllByAreaId(id));
+	}
 
 	@PostMapping(value = "/register")
 	public ResponseEntity<UsuarioResponsavelDTO> register(@RequestBody UsuarioResponsavelDTO dto) {

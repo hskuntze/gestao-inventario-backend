@@ -15,7 +15,7 @@ public class UsuarioSimpleDTO implements Serializable {
 	private String email;
 	private String login;
 	private Integer userState;
-	private Integer firstAccess;
+	private boolean firstAccess;
 	private TermoParceria termoParceria;
 	private List<PerfilDTO> perfis = new ArrayList<>();
 	
@@ -28,7 +28,7 @@ public class UsuarioSimpleDTO implements Serializable {
 		this.email = obj.getEmail();
 		this.login = obj.getLogin();
 		this.userState = obj.getUserState();
-		this.firstAccess = obj.getFirstAccess();
+		this.firstAccess = obj.isFirstAccess();
 		this.termoParceria = obj.getTermoParceria();
 		
 		this.perfis.clear();
@@ -75,11 +75,11 @@ public class UsuarioSimpleDTO implements Serializable {
 		this.userState = userState;
 	}
 
-	public Integer getFirstAccess() {
+	public boolean isFirstAccess() {
 		return firstAccess;
 	}
 
-	public void setFirstAccess(Integer firstAccess) {
+	public void setFirstAccess(boolean firstAccess) {
 		this.firstAccess = firstAccess;
 	}
 
